@@ -133,9 +133,21 @@ function renderCliEvent(event) {
         console.log(`\n❓ Critical Unresolved Questions:`);
         j.unresolvedQuestions.forEach(q => console.log(`   • ${q}`));
       }
+      if (j.keyTensions?.length > 0) {
+        console.log(`\n⚡ Key Persona Tensions:`);
+        j.keyTensions.forEach(t => console.log(`   • ${t.topic}: ${t.summary}`));
+      }
       console.log('\n' + '='.repeat(70) + '\n');
       break;
     }
+
+    case 'safety':
+      console.log('='.repeat(70));
+      console.log('💙 SUPPORT & CRISIS RESOURCES');
+      console.log('='.repeat(70));
+      console.log(event.message);
+      console.log('='.repeat(70) + '\n');
+      break;
 
     case 'error':
       console.error(`❌ [ERROR] Code: ${event.code} | Message: ${event.message}`);

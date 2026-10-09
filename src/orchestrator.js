@@ -13,6 +13,7 @@ import * as cache from './services/cache.js';
 import { exampleStore, findMatchingExample } from './services/exampleStore.js';
 import { callPersona, callAllPersonas } from './agents/personas.js';
 import { callJudge } from './agents/judge.js';
+import { checkPlanSafety } from './services/safetyGuard.js';
 
 export { findMatchingExample };
 
@@ -73,6 +74,17 @@ async function streamExample(res, example, signal) {
  * @param {AbortSignal} [params.signal]
  */
 export async function runReview({ plan, mode = 'auto', exampleId, res, signal }) {
+  // 0. Safety Guard: Check for crisis/self-harm before any caching, demo-matching, or API calls
+  const safetyCheck = checkPlanSafety(plan);
+  if (safetyCheck.isTriggered) {
+    emitEvent(res, {
+      event: 'safety',
+      mode: 'support',
+      message: safetyCheck.message,
+    });
+    return;
+  }
+
   // 1. Check if matching benchmark example exists
   const matchedExample = findMatchingExample(plan, exampleId);
 

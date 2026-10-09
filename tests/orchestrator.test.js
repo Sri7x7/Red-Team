@@ -51,8 +51,9 @@ describe('orchestrator.js execution paths', () => {
     assert.ok(eventTypes.includes('persona_done'));
 
     const judgeDone = events.find(e => e.event === 'judge_done');
-    assert.equal(judgeDone.data.survivalScoreBefore, 22);
-    assert.equal(judgeDone.data.survivalScoreAfter, 78);
+    assert.equal(judgeDone.data.survivalScoreBefore, 23);
+    assert.equal(judgeDone.data.survivalScoreAfter, 52);
+    assert.ok(Array.isArray(judgeDone.data.keyTensions));
   });
 
   it('executes live mode where all 5 personas succeed and calls Judge', async () => {
@@ -253,5 +254,42 @@ describe('orchestrator.js execution paths', () => {
     assert.equal(lastEvent.code, 'busy');
     assert.equal(lastEvent.sampleAvailable, true);
     assert.equal(events.some(e => e.event === 'judge_done'), false);
+  });
+
+  it('intercepts self-harm or crisis plans before any API calls or cache lookup, emitting safety event', async () => {
+    let apiCalled = false;
+    geminiClient.setMockClient({
+      models: {
+        generateContent: async () => {
+          apiCalled = true;
+          return { text: '{}' };
+        },
+      },
+    });
+
+    const events = [];
+    const mockRes = {
+      writableEnded: false,
+      destroyed: false,
+      write: str => events.push(JSON.parse(str.trim())),
+    };
+
+    const crisisPlan = 'I cannot take the pressure anymore and want to end my life.';
+
+    await runReview({
+      plan: crisisPlan,
+      mode: 'live',
+      res: mockRes,
+    });
+
+    // Zero API calls made
+    assert.equal(apiCalled, false);
+
+    // Emits safety event in support mode
+    assert.equal(events.length, 1);
+    assert.equal(events[0].event, 'safety');
+    assert.equal(events[0].mode, 'support');
+    assert.ok(events[0].message.includes('Tele-MANAS'));
+    assert.ok(events[0].message.includes('14416'));
   });
 });
