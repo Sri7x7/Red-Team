@@ -1,0 +1,22 @@
+{
+  "name": "red-team-my-life",
+  "version": "1.0.0",
+  "description": "Multi-agent web app where 5 AI personas red-team your life plan, then a Judge returns a hardened plan with a survival score.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "gemini",
+    "multi-agent",
+    "red-team",
+    "ai-assistant"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
