@@ -52,6 +52,10 @@ const config = Object.freeze({
     return process.env.GROUNDING_ENABLED === 'true';
   },
 
+  // Thinking Levels ('LOW', 'MINIMAL', 'MEDIUM', 'HIGH')
+  THINKING_LEVEL_PERSONA: process.env.THINKING_LEVEL_PERSONA || 'LOW',
+  THINKING_LEVEL_JUDGE: process.env.THINKING_LEVEL_JUDGE || 'LOW',
+
   // Numeric Limits — Input
   MAX_PLAN_LENGTH: 2000,
   MIN_PLAN_LENGTH: 1,
@@ -102,6 +106,9 @@ const config = Object.freeze({
     JUDGE_MAX_ACTION_TASK: 200,
     JUDGE_MAX_UNRESOLVED_QUESTIONS: 3,
     JUDGE_MAX_QUESTION: 150,
+    JUDGE_MAX_KEY_TENSIONS: 2,
+    JUDGE_MAX_KEY_TENSION_TOPIC: 80,
+    JUDGE_MAX_KEY_TENSION_SUMMARY: 220,
   }),
 });
 

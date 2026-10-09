@@ -126,7 +126,7 @@ export async function generateStructuredJson(options) {
     systemInstruction,
     contents,
     schema,
-    thinkingLevel = 'MINIMAL',
+    thinkingLevel = config.THINKING_LEVEL_PERSONA,
     signal,
   } = options;
 
