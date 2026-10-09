@@ -1,0 +1,103 @@
+{
+  "exampleId": "big-purchase",
+  "title": "Financing a $65k Electric Vehicle on a $75k Salary",
+  "planText": "I make $75k/year pre-tax. I have $5k saved for a down payment and plan to finance a new $65k electric SUV on a 72-month loan at 6.8% interest (about $1,020/month payment). I justify this because I will save $180/month on gasoline and the car has high safety ratings.",
+  "personas": {
+    "pessimist": {
+      "headline": "A single repair or insurance hike will cause immediate car repossession.",
+      "points": [
+        {
+          "claim": "EV insurance premiums for high-value vehicles are dramatically higher, wiping out gas savings.",
+          "severity": 5,
+          "suggestedFix": "Get insurance quotes from 3 carriers before signing any dealership paperwork."
+        },
+        {
+          "claim": "Luxury EVs depreciate by 40-50% in the first three years, putting you deeply underwater.",
+          "severity": 5,
+          "suggestedFix": "Buy a 2-year pre-owned EV to let the first owner absorb the initial depreciation curve."
+        }
+      ],
+      "verdict": "Financial catastrophe waiting to happen on a 72-month subprime amortization."
+    },
+    "accountant": {
+      "headline": "Vehicle expenses will swallow 32% of your monthly net income.",
+      "points": [
+        {
+          "claim": "Net take-home pay on $75k is ~$4,600/mo; car payment ($1,020) + insurance ($250) + electricity ($70) = $1,340/mo.",
+          "severity": 5,
+          "suggestedFix": "Follow the 20/4/10 rule: 20% down, 4-year term, payment under 10% of gross ($625/mo max)."
+        },
+        {
+          "claim": "Over 72 months, you will pay over $14,000 in non-recoverable loan interest alone.",
+          "severity": 4,
+          "suggestedFix": "Cap total vehicle purchase price at $35k or lower."
+        }
+      ],
+      "verdict": "Severe violation of sound personal financial planning guidelines."
+    },
+    "skepticalParent": {
+      "headline": "A car is not an investment; it is a depreciating asset that locks you into debt.",
+      "points": [
+        {
+          "claim": "You have only $5k in emergency savings; draining it leaves you with zero safety margin.",
+          "severity": 5,
+          "suggestedFix": "Preserve your emergency fund and buy a reliable $15k-$20k vehicle with partial cash."
+        }
+      ],
+      "verdict": "Showing off with a luxury vehicle at the expense of your financial independence is foolish."
+    },
+    "futureYou": {
+      "headline": "In 3 years you will hate this car payment as you watch friends buy homes.",
+      "points": [
+        {
+          "claim": "Car debt directly destroys your debt-to-income (DTI) ratio when applying for a mortgage.",
+          "severity": 5,
+          "suggestedFix": "Keep debt payments under 5% of income to preserve future borrowing power."
+        }
+      ],
+      "verdict": "This single impulsive vehicle purchase sets your wealth accumulation back by half a decade."
+    },
+    "optimist": {
+      "headline": "EV technology is the future and the driving experience is unparalleled.",
+      "points": [
+        {
+          "claim": "Maintenance costs on EVs (brakes, fluids) are demonstrably lower over 5 years.",
+          "severity": 2,
+          "suggestedFix": "Capture the EV benefits without the price tag by leasing an affordable EV under $350/mo."
+        }
+      ],
+      "verdict": "Desire for modern EV tech is sensible, but target an entry-level model or lease incentive."
+    }
+  },
+  "judge": {
+    "survivalScoreBefore": 15,
+    "survivalScoreAfter": 72,
+    "rationale": "Allocating nearly a third of net income to a rapidly depreciating luxury vehicle creates extreme financial vulnerability. Re-anchoring to an affordable certified pre-owned or lease structure achieves the safety and fuel benefits without bankrupting the user.",
+    "topRisks": [
+      "Severe monthly cashflow deficit ($1,340/mo car overhead on $4,600/mo net income)",
+      "Zero remaining emergency fund after applying $5k down payment",
+      "Negative equity trap with 72-month loan on a steep EV depreciation curve"
+    ],
+    "hardenedPlan": "Option A (Recommended): Purchase a 2022 Certified Pre-Owned EV or hybrid for $25k-$30k. Put $2,500 down, keeping $2,500 emergency buffer. Finance for 48 months at ~$550/mo. Option B: Take advantage of manufacturer subvented EV leases offering $299-$349/month with $2k down, keeping the rest in savings.",
+    "actionItems": [
+      {
+        "task": "Obtain written comprehensive insurance quotes for EV vs hybrid vehicles",
+        "dueInDays": 3
+      },
+      {
+        "task": "Calculate exact monthly budget breakdown including rent and living costs",
+        "dueInDays": 7
+      },
+      {
+        "task": "Test drive 2 pre-owned EV models under $30,000",
+        "dueInDays": 14
+      }
+    ],
+    "unresolvedQuestions": [
+      "Do you have home charging capability or will you rely on expensive public superchargers?",
+      "What are your medium-term goals for home ownership or graduate school?"
+    ],
+    "missingPersonas": [],
+    "modeUsed": "demo"
+  }
+}

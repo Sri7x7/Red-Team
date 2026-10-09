@@ -1,0 +1,108 @@
+{
+  "exampleId": "startup-idea",
+  "title": "AI-Powered Micro-SaaS for Local Dental Clinics",
+  "planText": "Building an AI phone receptionist and appointment scheduler specifically for private dental practices. Target price $199/month. I plan to build the product over 3 months, run Google Ads, and acquire 50 dental practices in the first quarter post-launch.",
+  "personas": {
+    "pessimist": {
+      "headline": "Dental clinics do not buy B2B SaaS from Google Ads.",
+      "points": [
+        {
+          "claim": "Healthcare practices rely heavily on existing Practice Management Software (EHR/PMS) integrations.",
+          "severity": 5,
+          "suggestedFix": "Target 1-2 major EHR systems (Dentrix, Eaglesoft) and verify API access before writing code."
+        },
+        {
+          "claim": "HIPAA compliance and voice AI reliability liability are massive barriers to adoption.",
+          "severity": 5,
+          "suggestedFix": "Sign Business Associate Agreements (BAAs) and secure errors & omissions insurance."
+        },
+        {
+          "claim": "Office managers gatekeep phone calls and immediately discard cold sales pitches.",
+          "severity": 4,
+          "suggestedFix": "Sell through dental consultants or in-person regional dental association meetings."
+        }
+      ],
+      "verdict": "Fatal go-to-market and integration blindspots will stall customer acquisition."
+    },
+    "accountant": {
+      "headline": "High customer acquisition costs will outpace early LTV without annual contracts.",
+      "points": [
+        {
+          "claim": "Healthcare B2B Google Ads CPCs exceed $15-$25 per click with low conversion rates.",
+          "severity": 4,
+          "suggestedFix": "Rely on targeted cold email and founder-led sales outreach instead of paid search."
+        },
+        {
+          "claim": "Telephony and real-time LLM voice latency costs eat into the $199/mo margin.",
+          "severity": 3,
+          "suggestedFix": "Charge usage tiers or base plan + per-minute overage fees."
+        }
+      ],
+      "verdict": "Unit economics require enterprise contract terms and lower-cost acquisition channels."
+    },
+    "skepticalParent": {
+      "headline": "What happens if the AI misbooks an emergency and causes a malpractice dispute?",
+      "points": [
+        {
+          "claim": "Dentistry handles acute pain emergencies where an AI misunderstanding has legal exposure.",
+          "severity": 5,
+          "suggestedFix": "Enforce strict fallback routing to human emergency lines for any triage distress."
+        }
+      ],
+      "verdict": "High legal exposure requires rock-solid disclaimers and human-in-the-loop safeguards."
+    },
+    "futureYou": {
+      "headline": "You will get stuck doing custom integration tech support for 50 different practice setups.",
+      "points": [
+        {
+          "claim": "Every dental clinic uses a legacy on-premise server with proprietary database formats.",
+          "severity": 5,
+          "suggestedFix": "Interview 10 office managers before building to standardize integration requirements."
+        }
+      ],
+      "verdict": "Validate technical interoperability before writing a single line of backend logic."
+    },
+    "optimist": {
+      "headline": "Dental front desks are notoriously understaffed; ROI is immediate and obvious.",
+      "points": [
+        {
+          "claim": "Capturing just two missed new-patient appointments per month pays for the entire software.",
+          "severity": 1,
+          "suggestedFix": "Pitch directly around 'missed patient revenue recovery' rather than 'AI technology'."
+        }
+      ],
+      "verdict": "Compelling value proposition if targeted to forward-thinking multi-location practices."
+    }
+  },
+  "judge": {
+    "survivalScoreBefore": 28,
+    "survivalScoreAfter": 82,
+    "rationale": "The original plan failed to address HIPAA compliance, EHR integration, and healthcare B2B sales cycles. Reframing around founder-led sales with pre-integrated Dentrix support makes this a viable niche business.",
+    "topRisks": [
+      "Lack of EHR/PMS integration making the tool useless for front desk staff",
+      "Prohibitive CAC via Google Ads compared to $199/mo subscription",
+      "HIPAA regulatory exposure and patient triage liability"
+    ],
+    "hardenedPlan": "Month 1: Secure HIPAA compliant infrastructure (BAA signed with Twilio/Gemini). Interview 15 dental office managers. Month 2: Build MVP integrating solely with Dentrix/Eaglesoft calendar syncing. Month 3: Run founder-led direct outreach to 100 local clinics offering a 30-day risk-free pilot. Target 5 paid pilots at $299/mo.",
+    "actionItems": [
+      {
+        "task": "Execute Business Associate Agreements with all cloud & telephony providers",
+        "dueInDays": 7
+      },
+      {
+        "task": "Conduct discovery interviews with 10 local dental practice managers",
+        "dueInDays": 21
+      },
+      {
+        "task": "Build prototype with emergency human-handoff fail-safe",
+        "dueInDays": 45
+      }
+    ],
+    "unresolvedQuestions": [
+      "Which specific EHR system holds the largest market share in your target metro area?",
+      "Can you offer telephone carrier porting without disrupting current office numbers?"
+    ],
+    "missingPersonas": [],
+    "modeUsed": "demo"
+  }
+}

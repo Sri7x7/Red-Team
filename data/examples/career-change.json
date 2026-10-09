@@ -1,0 +1,128 @@
+{
+  "exampleId": "career-change",
+  "title": "Quit Corporate Job to Become Full-Time Indie Game Developer",
+  "planText": "I am quitting my $130k software engineer job next month to develop a retro pixel-art RPG full-time. I have $25k in savings (about 5 months of living expenses). I have built game prototypes before but never shipped a commercial title. I plan to finish the game in 6 months, launch on Steam, and sustain myself from game sales.",
+  "personas": {
+    "pessimist": {
+      "headline": "Six months is fantasy; you will run out of money at 40% completion.",
+      "points": [
+        {
+          "claim": "Indie games suffer an average 2-3x timeline overrun due to scope creep.",
+          "severity": 5,
+          "suggestedFix": "Cut scope to a vertical slice or 2-hour micro-game first."
+        },
+        {
+          "claim": "Five months of savings gives zero buffer for unexpected life emergencies.",
+          "severity": 5,
+          "suggestedFix": "Keep at least 12 months of living expenses before resigning."
+        },
+        {
+          "claim": "Steam algorithm heavily penalizes unmarketed debuts with no prior wishlist velocity.",
+          "severity": 4,
+          "suggestedFix": "Build a Steam page and collect 5,000 wishlists before leaving your job."
+        }
+      ],
+      "verdict": "High probability of burning out and returning to corporate work in debt."
+    },
+    "accountant": {
+      "headline": "Negative expected monetary value without a guaranteed cashflow safety net.",
+      "points": [
+        {
+          "claim": "$25k savings against $5k/mo burn gives exactly 5 months, but game takes 6 months minimum.",
+          "severity": 5,
+          "suggestedFix": "Reduce monthly burn to $2.5k or secure part-time contracting income."
+        },
+        {
+          "claim": "Steam takes a 30% cut, plus taxes and asset/tool overhead not budgeted.",
+          "severity": 4,
+          "suggestedFix": "Budget $4k for platform fees, localization, and audio licenses."
+        },
+        {
+          "claim": "Median Steam game revenue in year 1 is under $1,000.",
+          "severity": 4,
+          "suggestedFix": "Model worst-case scenario at $2,000 gross revenue."
+        }
+      ],
+      "verdict": "Financially unviable in its current form without supplemental runway."
+    },
+    "skepticalParent": {
+      "headline": "Why throw away a stable, respectable career for uncertain video games?",
+      "points": [
+        {
+          "claim": "You have health insurance, 401(k) matching, and stability right now.",
+          "severity": 4,
+          "suggestedFix": "Work on the game nights and weekends until it proves commercial traction."
+        },
+        {
+          "claim": "Explaining an employment gap if the game flops will be difficult.",
+          "severity": 3,
+          "suggestedFix": "Frame your indie period as an LLC venture or take an unpaid sabbatical."
+        }
+      ],
+      "verdict": "Irrational risk tolerance when you could easily moon-light the prototype first."
+    },
+    "futureYou": {
+      "headline": "You will deeply regret isolating yourself without a launchable milestone.",
+      "points": [
+        {
+          "claim": "Working solo from home every day leads to severe motivational paralysis by month 3.",
+          "severity": 4,
+          "suggestedFix": "Join an indie dev co-working circle or stream development weekly."
+        },
+        {
+          "claim": "Shipping nothing after 6 months will crush your creative confidence.",
+          "severity": 5,
+          "suggestedFix": "Commit to a public itch.io playtest build within 60 days."
+        }
+      ],
+      "verdict": "Protect your mental health by establishing rapid external feedback loops."
+    },
+    "optimist": {
+      "headline": "Your technical foundation and passion can produce a breakout cult classic.",
+      "points": [
+        {
+          "claim": "Pixel-art RPGs have dedicated niche communities willing to champion passion projects.",
+          "severity": 2,
+          "suggestedFix": "Engage RPG communities on TikTok and Reddit early with devlogs."
+        },
+        {
+          "claim": "Software engineering skills give you a massive advantage in clean architecture.",
+          "severity": 1,
+          "suggestedFix": "Leverage your engineering speed to polish core gameplay feel."
+        }
+      ],
+      "verdict": "Tremendous upside if you de-risk the financial cliff with phased milestones."
+    }
+  },
+  "judge": {
+    "survivalScoreBefore": 22,
+    "survivalScoreAfter": 78,
+    "rationale": "The original plan faced an immediate liquidity crisis at month 5 with no marketing runway. Hardening the plan around moonlight de-risking and 10-12 months buffer transforms it into a viable venture.",
+    "topRisks": [
+      "Running out of cash before beta release",
+      "Steam discovery failure due to zero pre-launch wishlists",
+      "Isolation and burnout without intermediate public milestones"
+    ],
+    "hardenedPlan": "Phase 1 (Months 1-3 while staying employed): Build a 15-minute vertical slice. Launch Steam page and hit 3,000 wishlists. Save an additional $10k. Phase 2 (Months 4-9): Transition to 20 hr/week consulting ($4k/mo) while spending 30 hr/week finishing the game. Phase 3 (Month 10): Launch during a Steam Next Fest with community backing.",
+    "actionItems": [
+      {
+        "task": "Create Steam developer account and build capsule art",
+        "dueInDays": 14
+      },
+      {
+        "task": "Build public 15-minute demo and release on itch.io",
+        "dueInDays": 45
+      },
+      {
+        "task": "Secure 1 freelance client for 15 hours/week fallback income",
+        "dueInDays": 60
+      }
+    ],
+    "unresolvedQuestions": [
+      "Can your current living expenses realistically be cut by 30%?",
+      "What is your target retail price and estimated unit sales breakeven?"
+    ],
+    "missingPersonas": [],
+    "modeUsed": "demo"
+  }
+}

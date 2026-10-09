@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Team My Life — Multi-Agent AI Stress Test</title>
+  <meta name="description" content="5 AI personas ruthlessly stress-test your life, career, or business plan in parallel, then an Executive Judge hardens it with before and after survival scores.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-glow-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-glow-orb bg-orb-2" aria-hidden="true"></div>
+  <div class="bg-glow-orb bg-orb-3" aria-hidden="true"></div>
+
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-badge">
+          <span class="badge-pulse"></span>
+          <span>AUTONOMOUS AGENTS</span>
+        </div>
+        <h1 class="brand-title">RED TEAM <span class="gradient-text">MY LIFE</span></h1>
+        <p class="brand-subtitle">5 AI personas attack your plan in parallel. An Executive Judge hardens it.</p>
+      </div>
+      <div class="system-status-container">
+        <div id="system-status" class="status-pill" aria-live="polite">
+          <span class="status-dot"></span>
+          <span id="status-label">Checking System...</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- INPUT SECTION -->
+    <section class="section-card input-section" aria-labelledby="input-heading">
+      <div class="section-header">
+        <h2 id="input-heading" class="section-title">Submit Your Plan For Stress Testing</h2>
+        <p class="section-desc">Career pivot, startup pitch, risky investment, or major life decision. Maximum 2,000 characters.</p>
+      </div>
+
+      <div class="examples-toolbar" role="region" aria-label="Quick Benchmark Examples">
+        <span class="toolbar-label">Or load benchmark:</span>
+        <div class="example-buttons">
+          <button type="button" class="btn-example" data-example="career-change" id="btn-example-career">
+            🎮 Indie Game Dev Pivot
+          </button>
+          <button type="button" class="btn-example" data-example="startup-idea" id="btn-example-startup">
+            🦷 Dental AI SaaS
+          </button>
+          <button type="button" class="btn-example" data-example="big-purchase" id="btn-example-purchase">
+            ⚡ $65k EV Purchase
+          </button>
+        </div>
+      </div>
+
+      <form id="review-form" class="review-form" novalidate>
+        <div class="form-group">
+          <label for="plan-input" class="form-label">
+            <span>Your Plan Details</span>
+            <span id="char-counter" class="char-counter" aria-live="polite">0 / 2000</span>
+          </label>
+          <textarea
+            id="plan-input"
+            name="plan"
+            class="plan-textarea"
+            rows="6"
+            maxlength="2000"
+            required
+            placeholder="Example: I'm quitting my $120k engineering job to build an indie mobile game. I have $20k saved (4 months runway). I plan to ship in 5 months and live off revenue..."
+          ></textarea>
+          <div id="plan-error" class="input-error-msg" role="alert" aria-live="assertive" hidden></div>
+        </div>
+
+        <div class="form-footer">
+          <div class="mode-select-group">
+            <label for="mode-select" class="mode-label">Execution Mode:</label>
+            <select id="mode-select" class="mode-select" name="mode">
+              <option value="auto" selected>Auto (Quota-Aware)</option>
+              <option value="live">Live (5 Parallel Calls)</option>
+              <option value="quick">Quick (1 Combined Call)</option>
+              <option value="demo">Demo (Pre-saved Benchmark)</option>
+            </select>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-primary">
+            <span class="btn-text">DEPLOY RED TEAM</span>
+            <span class="btn-spinner" aria-hidden="true" hidden></span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- LIVE ORCHESTRATION BANNER -->
+    <section id="stream-status-card" class="stream-status-card" aria-live="polite" hidden>
+      <div class="stream-header">
+        <div class="stream-indicator">
+          <span class="stream-spinner"></span>
+          <span id="stream-mode-badge" class="mode-tag">LIVE MODE</span>
+        </div>
+        <p id="stream-status-msg" class="stream-msg">Dispatching personas...</p>
+      </div>
+      <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-el">
+        <div id="stream-progress-fill" class="progress-fill" style="width: 0%;"></div>
+      </div>
+    </section>
+
+    <!-- ERROR / CONGESTION ALERT -->
+    <div id="error-alert" class="alert-banner alert-error" role="alert" aria-live="assertive" hidden>
+      <div class="alert-content">
+        <strong id="error-title">Error Encountered</strong>
+        <p id="error-body"></p>
+        <button type="button" id="btn-load-sample" class="btn-secondary btn-sm" hidden>
+          Load Benchmark Sample Instead
+        </button>
+      </div>
+      <button type="button" class="btn-close-alert" id="btn-dismiss-error" aria-label="Close alert">&times;</button>
+    </div>
+
+    <!-- PERSONAS GRID -->
+    <section class="personas-section" aria-labelledby="personas-heading">
+      <div class="section-header">
+        <h2 id="personas-heading" class="section-title">The Red Team Personas</h2>
+        <p class="section-desc">Watch each persona dissect a different vector of failure in real time.</p>
+      </div>
+
+      <div class="personas-grid" id="personas-container">
+        <!-- Pessimist -->
+        <article class="persona-card" id="card-pessimist" data-persona="pessimist">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="persona-avatar avatar-pessimist" aria-hidden="true">💀</div>
+            <div>
+              <h3 class="persona-name">The Pessimist</h3>
+              <span class="persona-role">Fatal Flaws & Murphy's Law</span>
+            </div>
+            <span class="persona-status-badge status-idle">Waiting</span>
+          </div>
+          <div class="card-body">
+            <p class="card-empty-state">Awaiting plan submission to uncover catastrophic points of failure.</p>
+            <div class="persona-content" hidden></div>
+          </div>
+        </article>
+
+        <!-- Accountant -->
+        <article class="persona-card" id="card-accountant" data-persona="accountant">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="persona-avatar avatar-accountant" aria-hidden="true">💰</div>
+            <div>
+              <h3 class="persona-name">The Accountant</h3>
+              <span class="persona-role">Runway, Math & Unit Economics</span>
+            </div>
+            <span class="persona-status-badge status-idle">Waiting</span>
+          </div>
+          <div class="card-body">
+            <p class="card-empty-state">Awaiting plan submission to audit burn rate, margins, and financial solvency.</p>
+            <div class="persona-content" hidden></div>
+          </div>
+        </article>
+
+        <!-- Skeptical Parent -->
+        <article class="persona-card" id="card-skepticalParent" data-persona="skepticalParent">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="persona-avatar avatar-parent" aria-hidden="true">🛡️</div>
+            <div>
+              <h3 class="persona-name">Skeptical Parent</h3>
+              <span class="persona-role">Stability & Safety Nets</span>
+            </div>
+            <span class="persona-status-badge status-idle">Waiting</span>
+          </div>
+          <div class="card-body">
+            <p class="card-empty-state">Awaiting plan submission to evaluate healthcare, emergency buffers, and unhedged risks.</p>
+            <div class="persona-content" hidden></div>
+          </div>
+        </article>
+
+        <!-- Future You -->
+        <article class="persona-card" id="card-futureYou" data-persona="futureYou">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="persona-avatar avatar-future" aria-hidden="true">⏳</div>
+            <div>
+              <h3 class="persona-name">Future You</h3>
+              <span class="persona-role">3-Year Regrets & Burnout</span>
+            </div>
+            <span class="persona-status-badge status-idle">Waiting</span>
+          </div>
+          <div class="card-body">
+            <p class="card-empty-state">Awaiting plan submission to foresee mental stamina crashes and execution isolation.</p>
+            <div class="persona-content" hidden></div>
+          </div>
+        </article>
+
+        <!-- Optimist -->
+        <article class="persona-card" id="card-optimist" data-persona="optimist">
+          <div class="card-glow" aria-hidden="true"></div>
+          <div class="card-header">
+            <div class="persona-avatar avatar-optimist" aria-hidden="true">🚀</div>
+            <div>
+              <h3 class="persona-name">The Optimist</h3>
+              <span class="persona-role">Hidden Leverage & Highest Upside</span>
+            </div>
+            <span class="persona-status-badge status-idle">Waiting</span>
+          </div>
+          <div class="card-body">
+            <p class="card-empty-state">Awaiting plan submission to isolate unfair advantages and maximum strategic leverage.</p>
+            <div class="persona-content" hidden></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- JUDGE HARDENED VERDICT SECTION -->
+    <section id="judge-section" class="section-card judge-section" aria-labelledby="judge-heading" hidden>
+      <div class="judge-header">
+        <div class="judge-badge">
+          <span>⚖️ EXECUTIVE JUDGE SYNTHESIS</span>
+        </div>
+        <h2 id="judge-heading" class="judge-title">Hardened Plan & Survival Analysis</h2>
+        <p class="judge-subtitle">Synthesized from all red team attacks. Here is your battle-tested strategy.</p>
+      </div>
+
+      <!-- SCOREBOARD COMPARISON -->
+      <div class="scoreboard-container" role="region" aria-label="Survival Probability Comparison">
+        <div class="score-card score-before">
+          <span class="score-card-label">INITIAL SURVIVAL CHANCE</span>
+          <div class="score-value-wrapper">
+            <span id="score-before-val" class="score-number score-danger">--%</span>
+          </div>
+          <span class="score-subtext">Original unhedged plan</span>
+        </div>
+
+        <div class="score-arrow-wrapper" aria-hidden="true">
+          <div class="score-arrow">➔</div>
+          <div id="score-delta-badge" class="delta-badge">+0%</div>
+        </div>
+
+        <div class="score-card score-after">
+          <span class="score-card-label">HARDENED SURVIVAL CHANCE</span>
+          <div class="score-value-wrapper">
+            <span id="score-after-val" class="score-number score-success">--%</span>
+          </div>
+          <span class="score-subtext">Battle-tested revision</span>
+        </div>
+      </div>
+
+      <!-- JUDGE SYNTHESIS CONTENT -->
+      <div class="judge-grid">
+        <!-- Rationale & Top Risks -->
+        <div class="judge-panel">
+          <h3 class="panel-title">Executive Rationale</h3>
+          <p id="judge-rationale" class="panel-body-text"></p>
+
+          <h3 class="panel-title risks-title">Top 3 Fatal Vulnerabilities Neutralized</h3>
+          <ul id="judge-top-risks" class="risks-list"></ul>
+        </div>
+
+        <!-- Hardened Plan Revision -->
+        <div class="judge-panel">
+          <h3 class="panel-title">Battle-Hardened Revised Strategy</h3>
+          <div id="judge-hardened-plan" class="hardened-plan-content"></div>
+
+          <h3 class="panel-title actions-title">Immediate Action Items & Milestones</h3>
+          <ul id="judge-action-items" class="actions-list"></ul>
+
+          <div id="judge-questions-container" hidden>
+            <h3 class="panel-title questions-title">Unresolved Questions to Address</h3>
+            <ul id="judge-unresolved-questions" class="questions-list"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-container">
+      <p>Red Team My Life &copy; 2026 &bull; Multi-Agent Autonomous Decision Hardening</p>
+      <p class="footer-subtext">Built with Node.js &bull; @google/genai &bull; Express &bull; WCAG 2.1 AA Compliant</p>
+    </div>
+  </footer>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
