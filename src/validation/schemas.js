@@ -65,6 +65,14 @@ export const ActionItemSchema = z.object({
 });
 
 /**
+ * Key tension between personas.
+ */
+export const KeyTensionSchema = z.object({
+  topic: z.string().trim().max(SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSION_TOPIC),
+  summary: z.string().trim().max(SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSION_SUMMARY),
+});
+
+/**
  * Output schema for the Judge agent.
  */
 export const JudgeOutputSchema = z.object({
@@ -76,9 +84,79 @@ export const JudgeOutputSchema = z.object({
     .length(SCHEMA_LIMITS.JUDGE_TOP_RISKS_COUNT),
   hardenedPlan: z.string().trim().max(SCHEMA_LIMITS.JUDGE_MAX_HARDENED_PLAN),
   actionItems: z.array(ActionItemSchema).max(SCHEMA_LIMITS.JUDGE_MAX_ACTION_ITEMS),
+  keyTensions: z
+    .array(KeyTensionSchema)
+    .max(SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSIONS)
+    .default([]),
   unresolvedQuestions: z
     .array(z.string().trim().max(SCHEMA_LIMITS.JUDGE_MAX_QUESTION))
     .max(SCHEMA_LIMITS.JUDGE_MAX_UNRESOLVED_QUESTIONS),
   missingPersonas: z.array(z.string().trim()).default([]),
   modeUsed: z.enum(['live', 'quick', 'demo']),
 });
+
+/**
+ * JSON Schema for Judge Output (with keyTensions explicitly required).
+ */
+export const JudgeJsonSchema = {
+  type: 'object',
+  properties: {
+    survivalScoreBefore: { type: 'integer', minimum: 1, maximum: 100 },
+    survivalScoreAfter: { type: 'integer', minimum: 1, maximum: 100 },
+    rationale: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_RATIONALE },
+    topRisks: {
+      type: 'array',
+      items: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_RISK },
+      minItems: SCHEMA_LIMITS.JUDGE_TOP_RISKS_COUNT,
+      maxItems: SCHEMA_LIMITS.JUDGE_TOP_RISKS_COUNT,
+    },
+    hardenedPlan: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_HARDENED_PLAN },
+    actionItems: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          task: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_ACTION_TASK },
+          dueInDays: { type: 'integer', minimum: 1, maximum: 365 },
+        },
+        required: ['task', 'dueInDays'],
+      },
+      maxItems: SCHEMA_LIMITS.JUDGE_MAX_ACTION_ITEMS,
+    },
+    keyTensions: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          topic: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSION_TOPIC },
+          summary: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSION_SUMMARY },
+        },
+        required: ['topic', 'summary'],
+      },
+      maxItems: SCHEMA_LIMITS.JUDGE_MAX_KEY_TENSIONS,
+    },
+    unresolvedQuestions: {
+      type: 'array',
+      items: { type: 'string', maxLength: SCHEMA_LIMITS.JUDGE_MAX_QUESTION },
+      maxItems: SCHEMA_LIMITS.JUDGE_MAX_UNRESOLVED_QUESTIONS,
+    },
+    missingPersonas: {
+      type: 'array',
+      items: { type: 'string' },
+    },
+    modeUsed: {
+      type: 'string',
+      enum: ['live', 'quick', 'demo'],
+    },
+  },
+  required: [
+    'survivalScoreBefore',
+    'survivalScoreAfter',
+    'rationale',
+    'topRisks',
+    'hardenedPlan',
+    'actionItems',
+    'keyTensions',
+    'unresolvedQuestions',
+  ],
+};

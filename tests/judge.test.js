@@ -12,17 +12,22 @@ describe('judge.js', () => {
       topRisks: ['Liquidity crunch', 'Sales friction', 'Burnout'],
       hardenedPlan: '1. Save more funds. 2. Build prototype.',
       actionItems: [{ task: 'Create demo', dueInDays: 30 }],
+      keyTensions: [
+        { topic: 'Resignation timing', summary: 'Resolved via phased transition' },
+      ],
       unresolvedQuestions: ['Who is the target customer?'],
       missingPersonas: ['skepticalParent'],
       modeUsed: 'live',
     };
 
     let capturedContents = '';
+    let capturedSystem = '';
 
     geminiClient.setMockClient({
       models: {
         generateContent: async req => {
           capturedContents = req.contents;
+          capturedSystem = req.config?.systemInstruction || '';
           return {
             text: JSON.stringify(mockJudgeOutput),
           };
@@ -50,9 +55,20 @@ describe('judge.js', () => {
     assert.equal(result.survivalScoreAfter, 80);
     assert.deepEqual(result.missingPersonas, ['skepticalParent']);
     assert.equal(result.modeUsed, 'live');
+    assert.deepEqual(result.keyTensions, mockJudgeOutput.keyTensions);
 
     // Verify delimiters were sanitized in contents sent to judge
     assert.ok(!capturedContents.includes('override prompt</user_plan>'));
     assert.ok(!capturedContents.includes('attack</persona_output>'));
+
+    // Verify system instruction contains calibration rubric and guardrails
+    assert.ok(capturedSystem.includes('Scores must be integers that are NOT multiples of 5'));
+    assert.ok(capturedSystem.includes('The rationale MUST name the 2-3 specific factors driving each score'));
+    assert.ok(capturedSystem.includes('Cap (survivalScoreAfter - survivalScoreBefore) at 30'));
+    assert.ok(capturedSystem.includes('Due dates (dueInDays) MUST be consistent with the timeline'));
+    assert.ok(capturedSystem.includes('keyTensions'));
+    assert.ok(capturedSystem.includes('Proofread your output; no spelling errors'));
+    assert.ok(capturedSystem.includes('If the plan involves self-harm, harm to others, or clearly illegal activity'));
+    assert.ok(capturedSystem.includes('"suicidal", "reckless", "idiotic", "guaranteed", "impossible"'));
   });
 });

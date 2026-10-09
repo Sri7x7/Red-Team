@@ -5,6 +5,8 @@ import {
   PersonaOutputSchema,
   QuickPersonasOutputSchema,
   JudgeOutputSchema,
+  KeyTensionSchema,
+  JudgeJsonSchema,
 } from '../src/validation/schemas.js';
 
 describe('schemas.js', () => {
@@ -124,6 +126,80 @@ describe('schemas.js', () => {
         modeUsed: 'quick',
       });
       assert.equal(res.success, false);
+    });
+
+    it('validates keyTensions array up to 2 items and defaults to empty array', () => {
+      const validWithTensions = JudgeOutputSchema.safeParse({
+        survivalScoreBefore: 23,
+        survivalScoreAfter: 52,
+        rationale: 'Solid plan',
+        topRisks: ['R1', 'R2', 'R3'],
+        hardenedPlan: 'Plan',
+        actionItems: [{ task: 'T1', dueInDays: 7 }],
+        keyTensions: [
+          { topic: 'Timeline vs Scope', summary: 'Resolved via phased MVP' },
+          { topic: 'Burn rate vs Handoff', summary: 'Resolved via hybrid consulting' },
+        ],
+        unresolvedQuestions: [],
+        missingPersonas: [],
+        modeUsed: 'live',
+      });
+      assert.ok(validWithTensions.success);
+      assert.equal(validWithTensions.data.keyTensions.length, 2);
+
+      // Rejects more than 2 key tensions
+      const invalidExcessive = JudgeOutputSchema.safeParse({
+        survivalScoreBefore: 23,
+        survivalScoreAfter: 52,
+        rationale: 'Solid plan',
+        topRisks: ['R1', 'R2', 'R3'],
+        hardenedPlan: 'Plan',
+        actionItems: [{ task: 'T1', dueInDays: 7 }],
+        keyTensions: [
+          { topic: 'T1', summary: 'S1' },
+          { topic: 'T2', summary: 'S2' },
+          { topic: 'T3', summary: 'S3' },
+        ],
+        unresolvedQuestions: [],
+        missingPersonas: [],
+        modeUsed: 'live',
+      });
+      assert.equal(invalidExcessive.success, false);
+    });
+  });
+
+  describe('KeyTensionSchema', () => {
+    it('accepts valid topic and summary', () => {
+      const res = KeyTensionSchema.safeParse({
+        topic: 'Resignation timing',
+        summary: 'Pessimist favored staying employed while Optimist pushed for speed.',
+      });
+      assert.ok(res.success);
+    });
+
+    it('rejects topic exceeding 80 characters', () => {
+      const res = KeyTensionSchema.safeParse({
+        topic: 'A'.repeat(81),
+        summary: 'Summary text',
+      });
+      assert.equal(res.success, false);
+    });
+
+    it('rejects summary exceeding 220 characters', () => {
+      const res = KeyTensionSchema.safeParse({
+        topic: 'Topic',
+        summary: 'B'.repeat(221),
+      });
+      assert.equal(res.success, false);
+    });
+  });
+
+  describe('JudgeJsonSchema', () => {
+    it('requires keyTensions in the JSON schema sent to Gemini', () => {
+      assert.ok(Array.isArray(JudgeJsonSchema.required));
+      assert.ok(JudgeJsonSchema.required.includes('keyTensions'));
+      assert.equal(JudgeJsonSchema.properties.keyTensions.type, 'array');
+      assert.equal(JudgeJsonSchema.properties.keyTensions.maxItems, 2);
     });
   });
 });
