@@ -19,7 +19,7 @@ export const ExecutionModeSchema = z.enum(['auto', 'live', 'quick', 'demo']);
  */
 export const ReviewRequestSchema = z.object({
   plan: z
-    .string({ required_error: 'Plan is required' })
+    .string()
     .trim()
     .min(MIN_PLAN_LENGTH, { message: 'Plan cannot be empty' })
     .max(MAX_PLAN_LENGTH, { message: `Plan cannot exceed ${MAX_PLAN_LENGTH} characters` }),

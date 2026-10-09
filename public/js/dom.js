@@ -9,7 +9,7 @@
  * Strictly uses textContent and safe DOM nodes.
  * @param {string} tag - HTML tag name
  * @param {Record<string, any>} [props] - Properties and attributes
- * @param {Array<Node | string | number | null | undefined>} [children] - Child elements or text
+ * @param {...any} children - Child elements or text
  * @returns {HTMLElement}
  */
 export function h(tag, props = {}, ...children) {
@@ -47,7 +47,7 @@ export function h(tag, props = {}, ...children) {
 
   const flatChildren = children.flat(Infinity);
   for (const child of flatChildren) {
-    if (child === null || child === undefined || child === false) continue;
+    if (child === null || child === undefined || child === false || child === true) continue;
     if (child instanceof Node) {
       el.appendChild(child);
     } else {

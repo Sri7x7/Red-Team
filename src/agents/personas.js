@@ -25,7 +25,7 @@ export function stripDelimiters(text) {
 
 /**
  * Per-persona UI display metadata for frontend consumption.
- * @type {Record<string, { itemLabel: string, scoreLabel: string, fixLabel: string, color: string, icon: string }>}
+ * @type {Record<string, { displayName: string, itemLabel: string, scoreLabel: string, fixLabel: string, color: string, icon: string }>}
  */
 export const PERSONA_METADATA = Object.freeze({
   pessimist: Object.freeze({

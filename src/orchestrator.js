@@ -5,8 +5,6 @@
  * quota handling, LRU caching, and NDJSON event streaming.
  */
 
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
 import config from '../config.js';
 import * as modelPool from './services/modelPool.js';
 import * as cache from './services/cache.js';
@@ -207,8 +205,11 @@ export async function runReview({ plan, mode = 'auto', exampleId, res, signal })
  * @returns {Promise<boolean>} True if completed successfully
  */
 async function executeLiveMode({ plan, res, signal }) {
+  /** @type {Record<string, any>} */
   const personaResults = {};
+  /** @type {Record<string, string>} */
   const personaModels = {};
+  /** @type {string[]} */
   const failedPersonas = [];
 
   const personaPromises = PERSONA_NAMES.map(async personaName => {
@@ -246,10 +247,11 @@ async function executeLiveMode({ plan, res, signal }) {
         }
       }
       failedPersonas.push(personaName);
+      const errorMessage = firstErr instanceof Error ? firstErr.message : String(firstErr || 'Persona analysis failed');
       emitEvent(res, {
         event: 'persona_failed',
         persona: personaName,
-        error: firstErr?.message || 'Persona analysis failed',
+        error: errorMessage,
         model: fallbackModel || model,
       });
     }
@@ -265,8 +267,11 @@ async function executeLiveMode({ plan, res, signal }) {
   }
 
   // Continue to Judge through fallback chain
+  /** @type {string[]} */
   const triedJudgeModels = [];
+  /** @type {any} */
   let judgeResult = null;
+  /** @type {string | null} */
   let selectedJudgeModel = null;
 
   while (true) {
@@ -323,7 +328,8 @@ async function executeQuickMode({ plan, res, signal }) {
   const personaModel = modelPool.getPersonaModel();
   if (!personaModel) return false;
 
-  let personasData;
+  /** @type {Record<string, any>} */
+  let personasData = {};
   let usedPersonaModel = personaModel;
   try {
     personasData = await callAllPersonas(plan, personaModel, signal);
@@ -354,8 +360,11 @@ async function executeQuickMode({ plan, res, signal }) {
   }
 
   // Continue to Judge through fallback chain
+  /** @type {string[]} */
   const triedJudgeModels = [];
+  /** @type {any} */
   let judgeResult = null;
+  /** @type {string | null} */
   let selectedJudgeModel = null;
 
   while (true) {

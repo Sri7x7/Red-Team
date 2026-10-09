@@ -167,13 +167,13 @@ function renderErrorPanel({ code, message, retryAfterSeconds, sampleAvailable })
     countdownSpan = h('span', { className: 'countdown-timer' }, `Retry available in ${remaining}s`);
     actionsRow.appendChild(countdownSpan);
 
-    retryBtn.disabled = true;
+    /** @type {HTMLButtonElement} */ (retryBtn).disabled = true;
     countdownInterval = setInterval(() => {
       remaining--;
       if (remaining <= 0) {
         clearInterval(countdownInterval);
         countdownInterval = null;
-        retryBtn.disabled = false;
+        /** @type {HTMLButtonElement} */ (retryBtn).disabled = false;
         if (countdownSpan) countdownSpan.textContent = 'Ready to retry.';
       } else if (countdownSpan) {
         countdownSpan.textContent = `Retry available in ${remaining}s`;
