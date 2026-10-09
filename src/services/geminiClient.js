@@ -8,6 +8,7 @@
 import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 import config from '../../config.js';
 import * as modelPool from './modelPool.js';
+import { sanitizeModelOutput } from '../validation/sanitize.js';
 
 /** @type {any} */
 let customClient = null;
@@ -190,8 +191,11 @@ export async function generateStructuredJson(options) {
         throw new Error('Model failed to return valid JSON');
       }
 
+      // Sanitize over-length strings at word boundaries and drop excess array items
+      const sanitizedJson = sanitizeModelOutput(rawJson, schema);
+
       // Strict output validation against zod schema
-      const parseResult = schema.safeParse(rawJson);
+      const parseResult = schema.safeParse(sanitizedJson);
       if (!parseResult.success) {
         const validationError = new Error(
           `Model output failed schema validation: ${parseResult.error.message}`
