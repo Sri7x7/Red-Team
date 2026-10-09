@@ -4,98 +4,143 @@
   "planText": "I make $75k/year pre-tax. I have $5k saved for a down payment and plan to finance a new $65k electric SUV on a 72-month loan at 6.8% interest (about $1,020/month payment). I justify this because I will save $180/month on gasoline and the car has high safety ratings.",
   "personas": {
     "pessimist": {
-      "headline": "A single repair or insurance hike will cause immediate car repossession.",
+      "headline": "Charging infrastructure dependencies and real-world range degradation threaten daily vehicle utility.",
       "points": [
         {
-          "claim": "EV insurance premiums for high-value vehicles are dramatically higher, wiping out gas savings.",
+          "claim": "Single point of failure on home charging infrastructure; public chargers add 4-6 hours per week in downtime.",
           "severity": 5,
-          "suggestedFix": "Get insurance quotes from 3 carriers before signing any dealership paperwork."
+          "suggestedFix": "Confirm dedicated 240V Level 2 outlet availability at your current residence before taking delivery."
         },
         {
-          "claim": "Luxury EVs depreciate by 40-50% in the first three years, putting you deeply underwater.",
-          "severity": 5,
-          "suggestedFix": "Buy a 2-year pre-owned EV to let the first owner absorb the initial depreciation curve."
+          "claim": "Dealership delivery lead times and component shortages can leave you paying registration on an undelivered vehicle.",
+          "severity": 4,
+          "suggestedFix": "Only purchase from in-transit or on-lot verified inventory with guaranteed delivery dates."
+        },
+        {
+          "claim": "Extreme weather battery degradation will reduce real-world winter driving range by 25-35% on highway commutes.",
+          "severity": 3,
+          "suggestedFix": "Plan commute margins based on 65% of EPA-rated range during winter months."
         }
       ],
-      "verdict": "Financial catastrophe waiting to happen on a 72-month subprime amortization."
+      "verdict": "Operational failure risk centers on lacking residential charging and high public charging downtime."
     },
     "accountant": {
-      "headline": "Vehicle expenses will swallow 32% of your monthly net income.",
+      "headline": "Mini-model shows total transportation overhead will consume over 29% of monthly take-home pay.",
       "points": [
         {
-          "claim": "Net take-home pay on $75k is ~$4,600/mo; car payment ($1,020) + insurance ($250) + electricity ($70) = $1,340/mo.",
-          "severity": 5,
-          "suggestedFix": "Follow the 20/4/10 rule: 20% down, 4-year term, payment under 10% of gross ($625/mo max)."
+          "claim": "Mini-model: car payment ($1,020) + EV insurance (assumption: $220-$280/mo) consumes 28-31% of net monthly take-home.",
+          "severity": 4,
+          "suggestedFix": "Cap total monthly transportation expenses at 10-12% of gross income (maximum $625-$750/mo)."
         },
         {
-          "claim": "Over 72 months, you will pay over $14,000 in non-recoverable loan interest alone.",
+          "claim": "Liquid runway: deploying your entire $5k savings as a down payment reduces your emergency liquid cushion to $0.",
           "severity": 4,
-          "suggestedFix": "Cap total vehicle purchase price at $35k or lower."
+          "suggestedFix": "Maintain an emergency fund of an assumption: $10,000-$14,000 before allocating capital to vehicle equity."
+        },
+        {
+          "claim": "Financing overhead: over 72 months at 6.8%, loan interest generates an assumption: $13,500-$14,500 in dead interest cost.",
+          "severity": 3,
+          "suggestedFix": "Limit vehicle financing term to 48 months on a total vehicle purchase price under $32,000."
         }
       ],
-      "verdict": "Severe violation of sound personal financial planning guidelines."
+      "verdict": "Draining liquid reserves to $0 for an underwater 72-month loan violates basic fiduciary solvency."
     },
     "skepticalParent": {
-      "headline": "A car is not an investment; it is a depreciating asset that locks you into debt.",
+      "headline": "You are exhausting your only safety buffer on a status symbol while risking your independence.",
       "points": [
         {
-          "claim": "You have only $5k in emergency savings; draining it leaves you with zero safety margin.",
-          "severity": 5,
-          "suggestedFix": "Preserve your emergency fund and buy a reliable $15k-$20k vehicle with partial cash."
+          "claim": "Draining your entire $5,000 cushion leaves you completely defenseless if you face medical bills or job disruption.",
+          "severity": 4,
+          "suggestedFix": "Keep your savings intact and prioritize an emergency cushion for unexpected life surprises."
+        },
+        {
+          "claim": "A brand new luxury vehicle is an irreversible status purchase that will lock you into debt anxiety for six years.",
+          "severity": 3,
+          "suggestedFix": "Choose a reliable, practical car that gives you peace of mind rather than impressing strangers."
+        },
+        {
+          "claim": "You haven't discussed how this massive commitment impacts your ability to help your family or buy a home.",
+          "severity": 2,
+          "suggestedFix": "Talk with your family about your long-term goals before locking into a six-year commitment."
         }
       ],
-      "verdict": "Showing off with a luxury vehicle at the expense of your financial independence is foolish."
+      "verdict": "True safety comes from emergency cushion and low obligations, not a six-figure car note."
     },
     "futureYou": {
-      "headline": "In 3 years you will hate this car payment as you watch friends buy homes.",
+      "headline": "Five years later, that luxury car smell faded in a month but the payment trapped me for years.",
       "points": [
         {
-          "claim": "Car debt directly destroys your debt-to-income (DTI) ratio when applying for a mortgage.",
-          "severity": 5,
-          "suggestedFix": "Keep debt payments under 5% of income to preserve future borrowing power."
+          "claim": "I spent five years feeling trapped in my job because missing a single paycheck meant risking car repossession.",
+          "severity": 4,
+          "suggestedFix": "Maintain a vehicle payment low enough that you could cover it while working any bridge job."
+        },
+        {
+          "claim": "The single decision that changed my trajectory was walking away from the dealership and buying a certified used car.",
+          "severity": 3,
+          "suggestedFix": "Delay the new EV purchase until your base salary reaches twice the vehicle's sticker price."
         }
       ],
-      "verdict": "This single impulsive vehicle purchase sets your wealth accumulation back by half a decade."
+      "verdict": "I regretted the freedom I traded away far more than any enjoyment I got from driving that car."
     },
     "optimist": {
-      "headline": "EV technology is the future and the driving experience is unparalleled.",
+      "headline": "Energy savings and high safety ratings are genuine operational advantages if financed responsibly.",
       "points": [
         {
-          "claim": "Maintenance costs on EVs (brakes, fluids) are demonstrably lower over 5 years.",
+          "claim": "Electric powertrains deliver significantly lower routine mechanical maintenance costs and higher drive safety.",
+          "severity": 4,
+          "suggestedFix": "Access EV efficiency by leasing an entry-level EV or purchasing a 3-year certified pre-owned model."
+        },
+        {
+          "claim": "Your proactive desire to replace volatile gasoline expenditures with predictable electric charging is sound.",
+          "severity": 3,
+          "suggestedFix": "Lock in off-peak residential time-of-use utility rates to maximize energy savings per mile."
+        },
+        {
+          "claim": "This fuel-saving advantage disappears entirely if vehicle insurance increases offset the monthly energy reduction.",
           "severity": 2,
-          "suggestedFix": "Capture the EV benefits without the price tag by leasing an affordable EV under $350/mo."
+          "suggestedFix": "Obtain binding insurance binder quotes from multiple carriers prior to committing to any VIN."
         }
       ],
-      "verdict": "Desire for modern EV tech is sensible, but target an entry-level model or lease incentive."
+      "verdict": "The motivation to upgrade to clean, safe mobility is sound if decoupled from an overleveraged loan."
     }
   },
   "judge": {
-    "survivalScoreBefore": 15,
-    "survivalScoreAfter": 72,
-    "rationale": "Allocating nearly a third of net income to a rapidly depreciating luxury vehicle creates extreme financial vulnerability. Re-anchoring to an affordable certified pre-owned or lease structure achieves the safety and fuel benefits without bankrupting the user.",
+    "survivalScoreBefore": 18,
+    "survivalScoreAfter": 47,
+    "rationale": "Raw plan scored 18 because draining all cash reserves into a $65k car on a $75k salary creates immediate default risk. Hardened plan lifts survival to 47 by preserving the $5k emergency fund, pivoting to a certified pre-owned vehicle under $30k, and capping loan terms at 48 months while accounting for user execution friction.",
     "topRisks": [
-      "Severe monthly cashflow deficit ($1,340/mo car overhead on $4,600/mo net income)",
-      "Zero remaining emergency fund after applying $5k down payment",
-      "Negative equity trap with 72-month loan on a steep EV depreciation curve"
+      "Zero emergency cash reserves resulting from 100% down payment depletion",
+      "Cashflow starvation from $1,300+ monthly total transportation overhead",
+      "Negative equity lock-in across a 72-month vehicle loan"
     ],
-    "hardenedPlan": "Option A (Recommended): Purchase a 2022 Certified Pre-Owned EV or hybrid for $25k-$30k. Put $2,500 down, keeping $2,500 emergency buffer. Finance for 48 months at ~$550/mo. Option B: Take advantage of manufacturer subvented EV leases offering $299-$349/month with $2k down, keeping the rest in savings.",
+    "hardenedPlan": "Phase 1 (Immediate): Preserve the $5,000 cash reserve untouched. Obtain binding insurance quotes for 2021-2023 certified pre-owned EVs and hybrids. Phase 2 (Month 1): Target a certified pre-owned vehicle priced between $22,000-$28,000. Finance via credit union for 48 months with maximum $550/mo payment. Phase 3 (Months 2-12): Build emergency reserves to 3 months of expenses using the $470/mo savings.",
     "actionItems": [
       {
-        "task": "Obtain written comprehensive insurance quotes for EV vs hybrid vehicles",
-        "dueInDays": 3
-      },
-      {
-        "task": "Calculate exact monthly budget breakdown including rent and living costs",
+        "task": "Request written comprehensive vehicle insurance quotes from 3 providers",
         "dueInDays": 7
       },
       {
-        "task": "Test drive 2 pre-owned EV models under $30,000",
+        "task": "Obtain pre-approved auto loan financing from local credit union for 48-month term",
         "dueInDays": 14
+      },
+      {
+        "task": "Test drive two certified pre-owned EVs or hybrids priced under $28,000",
+        "dueInDays": 21
+      }
+    ],
+    "keyTensions": [
+      {
+        "topic": "New luxury EV safety versus cash reserve vulnerability",
+        "summary": "The user prioritized advanced safety ratings while Skeptical Parent and Accountant showed draining reserves causes default; resolved by buying a certified pre-owned car with identical safety scores."
+      },
+      {
+        "topic": "Fuel cost savings versus higher insurance overhead",
+        "summary": "Optimist recognized genuine energy savings while Pessimist and Accountant warned of EV insurance hikes; resolved by mandating binding insurance quotes before selection."
       }
     ],
     "unresolvedQuestions": [
-      "Do you have home charging capability or will you rely on expensive public superchargers?",
-      "What are your medium-term goals for home ownership or graduate school?"
+      "Can you install a 240V Level 2 charger at home without landlord or HOA complications?",
+      "What are your medium-term savings targets for housing down payment or retirement?"
     ],
     "missingPersonas": [],
     "modeUsed": "demo"
