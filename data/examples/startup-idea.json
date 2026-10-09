@@ -56,31 +56,31 @@
         {
           "claim": "You are building for dental practices without having spoken to an actual dentist or office receptionist.",
           "severity": 3,
-          "suggestedFix": "Shadow your own family dentist or a friend's practice front desk for two full afternoons."
+          "suggestedFix": "Shadow a local practice front desk for two afternoons to understand workflow firsthand."
         },
         {
           "claim": "A three-month build followed by cold advertising will isolate you from realistic market feedback.",
           "severity": 2,
-          "suggestedFix": "Promise your family you will secure 3 letters of intent before writing full production code."
+          "suggestedFix": "Commit to securing 3 letters of intent from local clinics before writing full production code."
         }
       ],
       "verdict": "Protect your reputation and liability by engaging real practitioners before writing software."
     },
     "futureYou": {
-      "headline": "Five years later, my biggest regret was building in a vacuum instead of selling the solution first.",
+      "headline": "Looking back from five years out, each path carries an unavoidable form of regret.",
       "points": [
         {
-          "claim": "I spent five months writing complex voice code before discovering every clinic used a different locked database.",
+          "claim": "If I push forward alone, I think I'd regret spending quarters building telephony pipelines only to discover clinics never wanted automated phone agents.",
           "severity": 4,
-          "suggestedFix": "Interview 10 office managers before writing a single line of backend logic."
+          "suggestedFix": "Walk into three neighborhood dental clinics tomorrow morning and ask the receptionist what causes their worst call headaches."
         },
         {
-          "claim": "The single decision that saved the venture was signing three pilot clinics on personal handshakes before building.",
+          "claim": "If I abandon the venture now, I think I'd regret staying on the sidelines while voice automation transforms local clinic operations without me.",
           "severity": 3,
-          "suggestedFix": "Secure three commitments for a 30-day trial before purchasing advertising credits."
+          "suggestedFix": "Draft a one-page interview question script today to test office managers' genuine pain points."
         }
       ],
-      "verdict": "Direct customer conversations early on would have saved me half a year of wasted engineering."
+      "verdict": "Whichever path I choose, I think I will mourn the other; the question is which uncertainty I am prepared to live with."
     },
     "optimist": {
       "headline": "Acute front-desk staffing shortages create an immediate, high-ROI value proposition for private practices.",

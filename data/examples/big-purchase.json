@@ -30,7 +30,7 @@
         {
           "claim": "Mini-model: car payment ($1,020) + EV insurance (assumption: $220-$280/mo) consumes 28-31% of net monthly take-home.",
           "severity": 4,
-          "suggestedFix": "Cap total monthly transportation expenses at 10-12% of gross income (maximum $625-$750/mo)."
+          "suggestedFix": "Target total monthly vehicle payments and insurance under an assumption: $600-$750/mo to preserve cashflow."
         },
         {
           "claim": "Liquid runway: deploying your entire $5k savings as a down payment reduces your emergency liquid cushion to $0.",
@@ -43,7 +43,7 @@
           "suggestedFix": "Limit vehicle financing term to 48 months on a total vehicle purchase price under $32,000."
         }
       ],
-      "verdict": "Draining liquid reserves to $0 for an underwater 72-month loan violates basic fiduciary solvency."
+      "verdict": "Draining liquid reserves to $0 for an underwater 72-month loan leaves no buffer for unexpected expenses."
     },
     "skepticalParent": {
       "headline": "You are exhausting your only safety buffer on a status symbol while risking your independence.",
@@ -59,28 +59,28 @@
           "suggestedFix": "Choose a reliable, practical car that gives you peace of mind rather than impressing strangers."
         },
         {
-          "claim": "You haven't discussed how this massive commitment impacts your ability to help your family or buy a home.",
+          "claim": "You haven't established whether you can afford any sudden emergency repairs or medical costs while tied to a six-year commitment.",
           "severity": 2,
-          "suggestedFix": "Talk with your family about your long-term goals before locking into a six-year commitment."
+          "suggestedFix": "Write down a list of potential unexpected disruptions before locking yourself into a six-year loan."
         }
       ],
       "verdict": "True safety comes from emergency cushion and low obligations, not a six-figure car note."
     },
     "futureYou": {
-      "headline": "Five years later, that luxury car smell faded in a month but the payment trapped me for years.",
+      "headline": "Looking back from five years out, each path carries an unavoidable form of regret.",
       "points": [
         {
-          "claim": "I spent five years feeling trapped in my job because missing a single paycheck meant risking car repossession.",
+          "claim": "If I buy this car, I think I'd regret the recurring knot in my stomach every time the $1,020 payment drafted from my account.",
           "severity": 4,
-          "suggestedFix": "Maintain a vehicle payment low enough that you could cover it while working any bridge job."
+          "suggestedFix": "Test-drive a sensible 3-year-old vehicle this weekend to compare how you genuinely feel behind the wheel."
         },
         {
-          "claim": "The single decision that changed my trajectory was walking away from the dealership and buying a certified used car.",
+          "claim": "If I walk away, I think I'd regret driving an older gas car each time fuel prices spike at the pump.",
           "severity": 3,
-          "suggestedFix": "Delay the new EV purchase until your base salary reaches twice the vehicle's sticker price."
+          "suggestedFix": "Calculate your weekly commute mileage on paper tonight to evaluate your exact daily driving routine."
         }
       ],
-      "verdict": "I regretted the freedom I traded away far more than any enjoyment I got from driving that car."
+      "verdict": "Whichever choice I make, I think I will mourn the alternate life; the decision is which regret I would rather carry."
     },
     "optimist": {
       "headline": "Energy savings and high safety ratings are genuine operational advantages if financed responsibly.",

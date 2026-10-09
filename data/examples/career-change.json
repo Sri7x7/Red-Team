@@ -46,7 +46,7 @@
       "verdict": "Net unit realization requires at least 3,800 units sold to replace basic monthly living burn."
     },
     "skepticalParent": {
-      "headline": "You are trading hard-won stability for an isolated gamble without an agreed family fallback plan.",
+      "headline": "You are trading hard-won stability for an isolated gamble without an agreed safety net.",
       "points": [
         {
           "claim": "Walking away from employer health coverage and an established engineering team leaves you with zero safety net.",
@@ -56,10 +56,10 @@
         {
           "claim": "You haven't communicated a clear fallback timeline to your loved ones if the game launch is delayed.",
           "severity": 3,
-          "suggestedFix": "Agree with your partner or family on a non-negotiable re-employment date if targets are missed."
+          "suggestedFix": "If you have a partner or dependents, agree with them on a non-negotiable date to seek employment if targets are missed."
         },
         {
-          "claim": "Isolating yourself at home for six straight months strains your relationship with people who care about you.",
+          "claim": "Isolating yourself at home for six straight months strains your relationship with the people around you.",
           "severity": 2,
           "suggestedFix": "Establish daily work-from-home boundaries and schedule weekly dinners outside the apartment."
         }
@@ -67,20 +67,20 @@
       "verdict": "Pursue your passion, but build an honest safety perimeter with your loved ones first."
     },
     "futureYou": {
-      "headline": "Looking back from five years out, solo isolation and all-or-nothing pressure nearly broke me.",
+      "headline": "Looking back from five years out, each path carries an unavoidable form of regret.",
       "points": [
         {
-          "claim": "I burned out completely by month four because I worked 70 hours a week alone in my bedroom without feedback.",
+          "claim": "If I leave now, I think I'd regret the exhausting mental strain of building alone in isolation without external momentum.",
           "severity": 4,
-          "suggestedFix": "Join a weekly local game developers meetup and co-work with other creators twice a week."
+          "suggestedFix": "Commit to working from a public library or co-working space two days a week starting tomorrow."
         },
         {
-          "claim": "The single decision that saved my career was keeping a 15-hour weekly consulting retainer while building the game.",
+          "claim": "If I stay at the corporate desk, I think I'd regret watching other indie creators launch while I kept wondering what might have happened.",
           "severity": 3,
-          "suggestedFix": "Lock in one fractional engineering client before tendering your resignation."
+          "suggestedFix": "Set aside two uninterrupted evenings this week to complete and playtest your core gameplay loop."
         }
       ],
-      "verdict": "I am grateful I built the game, but pacing and outside human connection were what mattered most."
+      "verdict": "Whichever path I pick, I think I will mourn the other; the real question is which flavor of regret I can carry."
     },
     "optimist": {
       "headline": "Strong technical competency and a dedicated niche audience provide genuine commercial leverage.",
