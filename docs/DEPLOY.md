@@ -104,3 +104,27 @@ curl -s "$SERVICE_URL/api/status" | jq .
 # 2. Verify static frontend serves security headers
 curl -I "$SERVICE_URL"
 ```
+
+---
+
+## 6. Vercel Deployment
+
+**Red Team My Life** includes native Vercel serverless support through `api/index.js` and `vercel.json`.
+
+### Dashboard Setup Steps:
+1. **Import Project**: Go to [vercel.com/new](https://vercel.com/new) and import your GitHub repository (`Red-Team`).
+2. **Framework Preset**: Select **Other** (Express app served via serverless function).
+3. **Root Directory**: Leave as `./` (default).
+4. **Build & Output Settings**: Leave empty (no build step is required; static files in `public/` and serverless functions in `api/` are routed directly).
+5. **Environment Variables**: Add the following in the Vercel Dashboard project settings:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key from Google AI Studio.
+   - `PERSONA_MODELS`: `gemini-3.5-flash-lite,gemini-3.1-flash-lite`
+   - `JUDGE_MODELS`: `gemini-3.8-flash,gemini-3.7-flash,gemini-3.6-flash,gemini-3.5-flash`
+   - `DEMO_MODE`: `false`
+   - `GROUNDING_ENABLED`: `false`
+   - `TRUST_PROXY`: `1` (automatically defaulted to `1` when `VERCEL` environment is detected)
+6. **Deploy**: Click **Deploy**. Vercel will bundle the serverless runtime and provide a live production URL (e.g., `https://red-team-my-life.vercel.app`).
+
+> [!NOTE]
+> **Serverless Architectural Consideration**:
+> In Vercel serverless environments, each incoming request is processed by a serverless function instance. In-memory LRU cache entries, sliding-window RPM counters, and rate-limiting maps are held in memory **per serverless instance**. For unified multi-region state persistence across ephemeral instances, a distributed store (e.g. Upstash Redis / Cloud Memorystore) can be wired into `src/services/cache.js` and `src/services/modelPool.js`.

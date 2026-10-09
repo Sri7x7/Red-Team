@@ -1,0 +1,7 @@
+tests
+docs
+scripts
+node_modules
+.env
+coverage
+.nyc_output

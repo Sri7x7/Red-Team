@@ -36,7 +36,18 @@ const DEFAULT_JUDGE_MODELS = [
 const config = Object.freeze({
   // Server
   PORT: parseInt(process.env.PORT || '3000', 10) || 3000,
-  TRUST_PROXY: process.env.TRUST_PROXY ? (process.env.TRUST_PROXY === 'true' ? true : parseInt(process.env.TRUST_PROXY, 10)) : 1,
+  get TRUST_PROXY() {
+    if (process.env.TRUST_PROXY !== undefined) {
+      if (process.env.TRUST_PROXY === 'true') return true;
+      if (process.env.TRUST_PROXY === 'false') return false;
+      const num = parseInt(process.env.TRUST_PROXY, 10);
+      return isNaN(num) ? process.env.TRUST_PROXY : num;
+    }
+    if (process.env.VERCEL) {
+      return 1;
+    }
+    return 1;
+  },
   BODY_LIMIT: '64kb',
 
   // Gemini API

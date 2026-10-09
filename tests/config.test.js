@@ -48,4 +48,26 @@ describe('config.js', () => {
       process.env.DEMO_MODE = origDemo;
     }
   });
+
+  it('defaults TRUST_PROXY to 1 when process.env.VERCEL is set', () => {
+    const origTrust = process.env.TRUST_PROXY;
+    const origVercel = process.env.VERCEL;
+
+    try {
+      delete process.env.TRUST_PROXY;
+      process.env.VERCEL = '1';
+      assert.equal(config.TRUST_PROXY, 1);
+
+      process.env.TRUST_PROXY = '2';
+      assert.equal(config.TRUST_PROXY, 2);
+
+      process.env.TRUST_PROXY = 'true';
+      assert.equal(config.TRUST_PROXY, true);
+    } finally {
+      if (origTrust !== undefined) process.env.TRUST_PROXY = origTrust;
+      else delete process.env.TRUST_PROXY;
+      if (origVercel !== undefined) process.env.VERCEL = origVercel;
+      else delete process.env.VERCEL;
+    }
+  });
 });

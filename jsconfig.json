@@ -14,7 +14,8 @@
     "src/**/*",
     "public/**/*",
     "server.js",
-    "config.js"
+    "config.js",
+    "api/**/*"
   ],
   "exclude": [
     "node_modules",
