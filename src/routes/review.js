@@ -43,8 +43,10 @@ reviewRouter.post('/review', reviewRateLimiter, async (req, res, next) => {
 
   // Tie client disconnect to AbortController
   const abortController = new AbortController();
-  req.on('close', () => {
-    abortController.abort();
+  res.on('close', () => {
+    if (!res.writableEnded) {
+      abortController.abort();
+    }
   });
 
   try {

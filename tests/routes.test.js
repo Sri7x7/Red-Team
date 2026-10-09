@@ -157,4 +157,71 @@ describe('routes /api & server middleware', () => {
       server.close();
     }
   });
+
+  it('POST /api/review streams NDJSON response with correct headers and events', async () => {
+    const app = createApp();
+    const server = app.listen(0);
+    const port = server.address().port;
+
+    try {
+      const res = await fetch(`http://localhost:${port}/api/review`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: 'I want to switch careers and become a full-time artist.',
+          mode: 'demo',
+          exampleId: 'career-change',
+        }),
+      });
+
+      assert.equal(res.status, 200);
+      assert.ok(res.headers.get('content-type')?.includes('application/x-ndjson'));
+      assert.ok(res.headers.get('cache-control')?.includes('no-cache'));
+
+      const text = await res.text();
+      const lines = text.trim().split('\n').filter(Boolean);
+      assert.ok(lines.length >= 6);
+
+      const events = lines.map(line => JSON.parse(line));
+      assert.equal(events[0].event, 'mode_selected');
+      assert.equal(events[events.length - 1].event, 'judge_done');
+    } finally {
+      server.close();
+    }
+  });
+
+  it('POST /api/review respects client abort during streaming', async () => {
+    const app = createApp();
+    const server = app.listen(0);
+    const port = server.address().port;
+
+    try {
+      const abortController = new AbortController();
+      const fetchPromise = fetch(`http://localhost:${port}/api/review`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: 'I am launching a new startup and need feedback.',
+          mode: 'demo',
+          exampleId: 'startup-idea',
+        }),
+        signal: abortController.signal,
+      });
+
+      setTimeout(() => abortController.abort(), 30);
+
+      await assert.rejects(async () => {
+        const res = await fetchPromise;
+        const reader = res.body?.getReader();
+        if (reader) {
+          while (true) {
+            const { done } = await reader.read();
+            if (done) break;
+          }
+        }
+      });
+    } finally {
+      server.close();
+    }
+  });
 });

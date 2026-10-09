@@ -308,4 +308,73 @@ describe('orchestrator.js execution paths', () => {
     assert.ok(events[0].message.includes('Tele-MANAS'));
     assert.ok(events[0].message.includes('14416'));
   });
+
+  it('serves cached results directly from LRU cache without model calls', async () => {
+    const cachedPlan = 'Plan that has already been analyzed';
+    cache.set(cachedPlan, 'live', {
+      modeUsed: 'live',
+      personas: {
+        pessimist: mockPersona,
+      },
+      personaModels: {
+        pessimist: 'cached-model',
+      },
+      judge: mockJudge,
+      judgeModel: 'cached-judge',
+    });
+
+    const events = [];
+    const mockRes = {
+      writableEnded: false,
+      destroyed: false,
+      write: str => events.push(JSON.parse(str.trim())),
+    };
+
+    await runReview({
+      plan: cachedPlan,
+      mode: 'live',
+      res: mockRes,
+    });
+
+    assert.equal(events[0].event, 'mode_selected');
+    assert.equal(events[0].mode, 'live');
+    const pDone = events.find(e => e.event === 'persona_done');
+    assert.ok(pDone);
+    assert.equal(pDone.model, 'cached-model');
+    const jDone = events.find(e => e.event === 'judge_done');
+    assert.ok(jDone);
+    assert.equal(jDone.model, 'cached-judge');
+  });
+
+  it('degrades to benchmark example when quota exhausted and plan matches benchmark text', async () => {
+    geminiClient.setMockClient({
+      models: {
+        generateContent: async () => {
+          throw new Error('503 Service Unavailable');
+        },
+      },
+    });
+
+    const events = [];
+    const mockRes = {
+      writableEnded: false,
+      destroyed: false,
+      write: str => events.push(JSON.parse(str.trim())),
+    };
+
+    // Use exact benchmark plan title/text for startup idea
+    const benchmarkPlan = 'I am quitting my $130k software engineer job next month to develop a retro pixel-art RPG full-time. I have $25k in savings (about 5 months of living expenses). I have built game prototypes before but never shipped a commercial title. I plan to finish the game in 6 months, launch on Steam, and sustain myself from game sales.';
+
+    await runReview({
+      plan: benchmarkPlan,
+      mode: 'quick',
+      res: mockRes,
+    });
+
+    const degradedEvent = events.find(e => e.event === 'degraded');
+    assert.ok(degradedEvent);
+    assert.equal(degradedEvent.to, 'demo');
+    const judgeEvent = events.find(e => e.event === 'judge_done');
+    assert.ok(judgeEvent);
+  });
 });
