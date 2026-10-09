@@ -20,6 +20,7 @@ npm-debug.log*
 
 # Coverage
 coverage/
+.nyc_output/
 
 # Build artifacts
 dist/

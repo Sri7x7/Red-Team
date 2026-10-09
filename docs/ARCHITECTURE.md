@@ -9,43 +9,62 @@
 
 ```
 Red-Team/
-├── RULES.md                   # engineering rules
+├── RULES.md                   # engineering rules & requirements
+├── SECURITY.md                # security architecture & implementation audit
+├── Dockerfile                 # minimal node:20-slim non-root production container
+├── .dockerignore              # container build exclusion list
+├── jsconfig.json              # TypeScript/JSDoc type checking configuration
 ├── .gitignore
 ├── .env.example               # env template (never real secrets)
-├── package.json               # type: module, scripts: start/dev/test
-├── config.js                  # central constants & env parsing
+├── package.json               # type: module, scripts: start/dev/test/smoke/review
+├── config.js                  # central constants, trust proxy, & limits
 ├── server.js                  # Express entry point
 ├── docs/
-│   └── ARCHITECTURE.md        # this file
+│   ├── ARCHITECTURE.md        # system architecture and data flows
+│   ├── ACCESSIBILITY.md       # WCAG 2.1 AA verified implementations
+│   └── DEPLOY.md              # Cloud Run & Secret Manager deploy guide
 ├── data/
-│   └── examples/              # 3 pre-saved demo review JSONs
+│   └── examples/              # 3 pre-saved benchmark demo review JSONs
 │       ├── career-change.json
 │       ├── startup-idea.json
 │       └── big-purchase.json
 ├── src/
 │   ├── agents/
-│   │   ├── personas.js        # 5 persona prompt templates + callers
-│   │   └── judge.js           # Judge prompt template + caller
+│   │   ├── personas.js        # 5 persona prompt templates + callers + metadata
+│   │   └── judge.js           # Judge prompt template + synthesis caller
 │   ├── orchestrator.js        # mode selection, degradation, NDJSON streaming
 │   ├── routes/
-│   │   └── review.js          # POST /api/review, GET /api/status
+│   │   └── review.js          # POST /api/review, GET /api/status, GET /api/meta
 │   ├── middleware/
 │   │   ├── helmet.js          # helmet + strict CSP
-│   │   ├── rateLimiter.js     # per-IP + global concurrency limiter
-│   │   └── errorHandler.js    # structured JSON error responses
+│   │   ├── rateLimiter.js     # per-IP sliding window + global concurrency guard
+│   │   └── errorHandler.js    # structured JSON error responses (no stack traces)
 │   ├── services/
-│   │   ├── geminiClient.js    # @google/genai wrapper: init, call, timeout, retry
-│   │   ├── modelPool.js       # per-model RPM window, daily counter, cooldown, rotation
-│   │   └── cache.js           # in-memory LRU cache
+│   │   ├── geminiClient.js    # @google/genai wrapper: call, timeout, backoff + jitter
+│   │   ├── modelPool.js       # per-model RPM/RPD sliding window, cooldowns, rotation
+│   │   ├── safetyGuard.js     # pre-flight crisis & self-harm detection
+│   │   ├── exampleStore.js    # benchmark loading & text-normalization matching
+│   │   └── cache.js           # in-memory LRU cache with SHA-256 keys
 │   └── validation/
-│       └── schemas.js         # zod schemas for request, persona output, judge output
+│       ├── sanitize.js        # pre-validation length & array item sanitizer
+│       └── schemas.js         # zod schemas for requests and model outputs
 ├── public/
-│   ├── index.html             # semantic HTML, ARIA live regions
-│   ├── styles.css             # vanilla CSS, dark mode, animations
-│   └── app.js                 # NDJSON stream reader, progressive UI
-└── tests/                     # mirrors src/
+│   ├── index.html             # semantic HTML5, ARIA live regions, skip link
+│   ├── styles.css             # responsive CSS design system, dark mode, 44px targets
+│   └── js/
+│       ├── main.js            # entry point: tabs, streaming controller, focus
+│       ├── api.js             # NDJSON fetch stream reader with AbortController
+│       ├── dom.js             # safe h() DOM constructor (zero innerHTML/style)
+│       ├── cards.js           # 5 persona critique cards & segmented 1-5 rating bars
+│       ├── judge.js           # executive judge card, radar/bar score, hardened plan
+│       ├── icons.js           # inline SVG icon components
+│       ├── calendar.js        # Google Calendar Web URL action export
+│       └── lib.js             # scoring helpers, text formatting, and color tokens
+└── tests/
     ├── config.test.js
     ├── schemas.test.js
+    ├── sanitize.test.js
+    ├── safetyGuard.test.js
     ├── geminiClient.test.js
     ├── modelPool.test.js
     ├── personas.test.js
@@ -55,7 +74,9 @@ Red-Team/
     ├── middleware.test.js
     ├── cache.test.js
     ├── stream.test.js
-    └── examples.test.js
+    ├── examples.test.js
+    ├── frontend-security.test.js
+    └── lib.test.js
 ```
 
 ---
