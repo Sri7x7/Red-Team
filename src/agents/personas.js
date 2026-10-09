@@ -29,6 +29,7 @@ export function stripDelimiters(text) {
  */
 export const PERSONA_METADATA = Object.freeze({
   pessimist: Object.freeze({
+    displayName: 'Pessimist',
     itemLabel: 'Risk',
     scoreLabel: 'Severity',
     fixLabel: 'Fix',
@@ -36,6 +37,7 @@ export const PERSONA_METADATA = Object.freeze({
     icon: 'skull',
   }),
   accountant: Object.freeze({
+    displayName: 'Accountant',
     itemLabel: 'Risk',
     scoreLabel: 'Severity',
     fixLabel: 'Fix',
@@ -43,6 +45,7 @@ export const PERSONA_METADATA = Object.freeze({
     icon: 'wallet',
   }),
   skepticalParent: Object.freeze({
+    displayName: 'Skeptical Parent',
     itemLabel: 'Risk',
     scoreLabel: 'Severity',
     fixLabel: 'Fix',
@@ -50,6 +53,7 @@ export const PERSONA_METADATA = Object.freeze({
     icon: 'shield',
   }),
   futureYou: Object.freeze({
+    displayName: 'Future You',
     itemLabel: 'Looking back',
     scoreLabel: 'Weight',
     fixLabel: "What I'd do now",
@@ -57,6 +61,7 @@ export const PERSONA_METADATA = Object.freeze({
     icon: 'hourglass',
   }),
   optimist: Object.freeze({
+    displayName: 'Optimist',
     itemLabel: 'Strength',
     scoreLabel: 'Impact',
     fixLabel: 'Make it stick',

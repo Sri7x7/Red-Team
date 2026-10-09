@@ -25,6 +25,46 @@ describe('routes /api & server middleware', () => {
     }
   });
 
+  it('GET /api/meta returns maxPlanLength, demoMode, personas, and examples without secrets', async () => {
+    const app = createApp();
+    const server = app.listen(0);
+    const port = server.address().port;
+
+    try {
+      const res = await fetch(`http://localhost:${port}/api/meta`);
+      assert.equal(res.status, 200);
+      const data = await res.json();
+
+      assert.equal(typeof data.maxPlanLength, 'number');
+      assert.equal(typeof data.demoMode, 'boolean');
+      assert.ok(Array.isArray(data.personas));
+      assert.equal(data.personas.length, 5);
+
+      for (const p of data.personas) {
+        assert.ok(p.id);
+        assert.ok(p.displayName);
+        assert.ok(p.role);
+        assert.ok(p.itemLabel);
+        assert.ok(p.scoreLabel);
+        assert.ok(p.fixLabel);
+      }
+
+      assert.ok(Array.isArray(data.examples));
+      assert.equal(data.examples.length, 3);
+      for (const ex of data.examples) {
+        assert.ok(ex.id);
+        assert.ok(ex.title);
+        assert.ok(ex.plan);
+      }
+
+      const raw = JSON.stringify(data);
+      assert.ok(!raw.includes('GEMINI_API_KEY'));
+      assert.ok(!raw.includes('AIza'));
+    } finally {
+      server.close();
+    }
+  });
+
   it('POST /api/review rejects invalid empty payload with 400 and safe error body', async () => {
     const app = createApp();
     const server = app.listen(0);

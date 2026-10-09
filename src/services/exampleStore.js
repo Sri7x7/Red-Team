@@ -89,3 +89,16 @@ export function findMatchingExample(plan, exampleId) {
 
   return null;
 }
+
+/**
+ * Returns summary array of all benchmark examples for frontend consumption.
+ * @returns {Array<{ id: string, title: string, plan: string }>}
+ */
+export function getAllExamplesSummary() {
+  return Array.from(exampleStore.values()).map(example => ({
+    id: example.exampleId,
+    title: example.title,
+    plan: example.planText,
+  }));
+}
+

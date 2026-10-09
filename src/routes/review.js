@@ -9,6 +9,8 @@ import { ReviewRequestSchema } from '../validation/schemas.js';
 import { runReview } from '../orchestrator.js';
 import { getModelPoolStatus } from '../services/modelPool.js';
 import { reviewRateLimiter, getActiveReviewsCount } from '../middleware/rateLimiter.js';
+import { PERSONA_METADATA } from '../agents/personas.js';
+import { getAllExamplesSummary } from '../services/exampleStore.js';
 import config from '../../config.js';
 
 export const reviewRouter = Router();
@@ -86,3 +88,34 @@ reviewRouter.get('/status', (req, res) => {
     maxConcurrentReviews: config.RATE_LIMIT.GLOBAL_MAX_CONCURRENT_REVIEWS,
   });
 });
+
+/**
+ * GET /api/meta
+ * Returns configuration metadata for the frontend: plan limits, demoMode,
+ * persona details with labels and themes, and benchmark example plans.
+ * Never leaks API keys, prompts, or sensitive internal state.
+ */
+reviewRouter.get('/meta', (req, res) => {
+  const personaRoles = {
+    pessimist: 'Operational risk & structural failure points',
+    accountant: 'Fiduciary stress-testing & financial assumptions',
+    skepticalParent: 'Family safety nets & life reversibility',
+    futureYou: 'Hindsight reflection & regret asymmetry',
+    optimist: 'Strategic upsides & compounding catalysts',
+  };
+
+  const personas = Object.entries(PERSONA_METADATA).map(([id, meta]) => ({
+    id,
+    displayName: meta.displayName,
+    role: personaRoles[id] || 'Council advisor',
+    ...meta,
+  }));
+
+  res.json({
+    maxPlanLength: config.MAX_PLAN_LENGTH,
+    demoMode: config.DEMO_MODE,
+    personas,
+    examples: getAllExamplesSummary(),
+  });
+});
+
