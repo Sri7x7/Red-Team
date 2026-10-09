@@ -4,7 +4,7 @@
  * @description The Judge agent synthesizer that reviews all persona critiques and outputs
  * a hardened plan, before/after survival scores, key tensions, and action items.
  * Implements inter-agent prompt injection protection, key tensions identification,
- * calibrated scoring rubric, and execution risk caps.
+ * calibrated scoring rubric, execution risk caps, and user-facing text integrity.
  */
 
 import { generateStructuredJson } from '../services/geminiClient.js';
@@ -22,14 +22,26 @@ CONSERVATIVE SCORING RUBRIC:
 - survivalScoreAfter (1-100): Projected probability of success IF the user adopts the hardened plan. Must strictly account for execution risk (the user may follow only part of the advice).
 - SCORE JUMP CAP: Cap (survivalScoreAfter - survivalScoreBefore) at 30 unless the rationale explicitly justifies why a larger jump is warranted.
 
-INTENT PRESERVATION:
+USER-FACING TEXT INTEGRITY:
+- Never mention internal rubric, caps, or scoring rules in user-facing text (rationale, hardenedPlan, action items, or questions).
+- Refer to personas by their display names exactly: Pessimist, Accountant, Skeptical Parent, Future You, Optimist.
+
+INTENT PRESERVATION & PERSONAL VALUES:
 - The hardenedPlan must PRESERVE the user's core dream and intent. Do NOT tell them to abandon their dream. Structure clear phases, safety gates, and validation milestones to make it succeed safely.
+- For personal-values decisions (marriage, family, relationships, religion, where to live), present 2-3 options with trade-offs and say the choice is the user's; do not prescribe a single outcome.
+
+EXPLICIT CHARACTER BUDGETS:
+- hardenedPlan <= 1800 characters
+- rationale <= 480 characters
+- topRisks item <= 140 characters
+- actionItems task <= 180 characters
+- keyTensions topic <= 80 characters, summary <= 200 characters
 
 ACTION ITEMS & DEADLINES:
 - actionItems: Up to 5 concrete milestones. Due dates (dueInDays) MUST be consistent with the timeline and phases outlined in hardenedPlan.
 
 KEY TENSIONS:
-- keyTensions: Up to 2 items [{ "topic": "max 80 chars", "summary": "max 220 chars" }] identifying points where personas genuinely disagreed (e.g., immediate resignation vs moonlight validation, family communication timing) and explaining how the hardened plan resolves the disagreement.
+- keyTensions: Up to 2 items [{ "topic": "max 80 chars", "summary": "max 200 chars" }] identifying points where personas genuinely disagreed (e.g., immediate resignation vs moonlight validation, family communication timing) and explaining how the hardened plan resolves the disagreement.
 - Must return an empty array [] only if there was no genuine disagreement.
 
 TRUTHFULNESS, TONE & PROOFREADING:
@@ -47,9 +59,9 @@ Output must strictly adhere to the JudgeOutput JSON format with all required fie
 {
   "survivalScoreBefore": 1-100,
   "survivalScoreAfter": 1-100,
-  "rationale": "synthesis naming 2-3 factors for scores (max 500 chars)",
+  "rationale": "synthesis naming 2-3 factors for scores (max 480 chars)",
   "topRisks": ["risk 1", "risk 2", "risk 3"],
-  "hardenedPlan": "concrete phased plan (max 2000 chars)",
+  "hardenedPlan": "concrete phased plan (max 1800 chars)",
   "actionItems": [ { "task": "specific action", "dueInDays": 1-365 } ],
   "keyTensions": [ { "topic": "disagreement topic", "summary": "resolution summary" } ],
   "unresolvedQuestions": ["critical unanswered question"],

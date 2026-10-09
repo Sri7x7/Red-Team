@@ -70,5 +70,11 @@ describe('judge.js', () => {
     assert.ok(capturedSystem.includes('Proofread your output; no spelling errors'));
     assert.ok(capturedSystem.includes('If the plan involves self-harm, harm to others, or clearly illegal activity'));
     assert.ok(capturedSystem.includes('"suicidal", "reckless", "idiotic", "guaranteed", "impossible"'));
+
+    // New Judge requirements
+    assert.ok(capturedSystem.includes('Never mention internal rubric, caps, or scoring rules in user-facing text'));
+    assert.ok(capturedSystem.includes('present 2-3 options with trade-offs and say the choice is the user\'s'));
+    assert.ok(capturedSystem.includes('Pessimist, Accountant, Skeptical Parent, Future You, Optimist'));
+    assert.ok(capturedSystem.includes('hardenedPlan <= 1800'));
   });
 });

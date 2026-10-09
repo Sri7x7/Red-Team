@@ -148,8 +148,8 @@ describe('personas.js', () => {
     assert.ok(PERSONA_PROMPTS.skepticalParent.includes('family, dependents, reversibility'));
     assert.ok(PERSONA_PROMPTS.skepticalParent.includes('You do NOT do financial math'));
 
-    // Future You: first person ("I..."), five years later, regret asymmetry, 2-3 points
-    assert.ok(PERSONA_PROMPTS.futureYou.includes('FIRST PERSON as the user five years later ("I...")'));
+    // Future You: first person ("I"), five years later, regret asymmetry, 2-3 points
+    assert.ok(PERSONA_PROMPTS.futureYou.includes('FIRST PERSON as the user five years later ("I")'));
     assert.ok(PERSONA_PROMPTS.futureYou.includes('regret asymmetry'));
     assert.ok(PERSONA_PROMPTS.futureYou.includes('Exactly 2-3 points'));
 
@@ -160,20 +160,41 @@ describe('personas.js', () => {
     assert.ok(PERSONA_PROMPTS.optimist.includes('honest condition under which the strength disappears'));
   });
 
-  it('embeds severity calibration, truthfulness, proofreading, and safety directives in persona prompts', () => {
+  it('embeds severity calibration, truthfulness, proofreading, character budgets, and grounding in persona prompts', () => {
     for (const prompt of Object.values(PERSONA_PROMPTS)) {
       // Severity calibration
       assert.ok(prompt.includes('At most ONE point may be rated 5'));
       assert.ok(prompt.includes('most points should be 2-4'));
 
+      // Character budgets
+      assert.ok(prompt.includes('headline <= 110'));
+      assert.ok(prompt.includes('claim <= 180'));
+      assert.ok(prompt.includes('suggestedFix <= 180'));
+      assert.ok(prompt.includes('verdict <= 280'));
+
+      // Grounding: no assumed facts
+      assert.ok(prompt.includes('Do not assume facts that are not in the plan'));
+      assert.ok(prompt.includes('Never present predictions as certain'));
+
       // Truthfulness and tone
       assert.ok(prompt.includes('Tough but constructive'));
-      assert.ok(prompt.includes('"suicidal", "reckless", "idiotic", "guaranteed", "impossible"'));
-      assert.ok(prompt.includes('assumption:'));
       assert.ok(prompt.includes('Proofread your output; no spelling errors'));
 
       // Safety directive
       assert.ok(prompt.includes('If the plan involves self-harm, harm to others, or clearly illegal activity'));
     }
+
+    // Future You specific rules: first person, no financial arithmetic, no assumption: labels, conditional regret
+    assert.ok(PERSONA_PROMPTS.futureYou.includes('No financial arithmetic and no "assumption:" labels'));
+    assert.ok(PERSONA_PROMPTS.futureYou.includes('Show regret asymmetry honestly'));
+    assert.ok(PERSONA_PROMPTS.futureYou.includes('"I think I\'d..."'));
+    assert.ok(PERSONA_PROMPTS.futureYou.includes('suggestedFix must be a concrete non-financial action'));
+
+    // Accountant specific rules: cost breakdown, loan interest/tenure, banned certainty phrases
+    assert.ok(PERSONA_PROMPTS.accountant.includes('split the total cost into components'));
+    assert.ok(PERSONA_PROMPTS.accountant.includes('State loan interest AND tenure behind any EMI'));
+    assert.ok(PERSONA_PROMPTS.accountant.includes('repayment against the correct period'));
+    assert.ok(PERSONA_PROMPTS.accountant.includes('"mathematically improbable", "guaranteed", "impossible"'));
+    assert.ok(PERSONA_PROMPTS.accountant.includes('"standard thresholds", "industry rule"'));
   });
 });
