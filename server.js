@@ -22,11 +22,14 @@ const __dirname = dirname(__filename);
 export function createApp() {
   const app = express();
 
+  // Trust proxy for reverse proxy deployments (Cloud Run)
+  app.set('trust proxy', config.TRUST_PROXY);
+
   // Security headers
   app.use(helmetMiddleware);
 
   // Request body limits
-  app.use(express.json({ limit: '64kb' }));
+  app.use(express.json({ limit: config.BODY_LIMIT }));
 
   // Static frontend in /public
   app.use(express.static(join(__dirname, 'public')));

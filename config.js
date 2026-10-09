@@ -36,6 +36,8 @@ const DEFAULT_JUDGE_MODELS = [
 const config = Object.freeze({
   // Server
   PORT: parseInt(process.env.PORT || '3000', 10) || 3000,
+  TRUST_PROXY: process.env.TRUST_PROXY ? (process.env.TRUST_PROXY === 'true' ? true : parseInt(process.env.TRUST_PROXY, 10)) : 1,
+  BODY_LIMIT: '64kb',
 
   // Gemini API
   get GEMINI_API_KEY() {
@@ -73,6 +75,7 @@ const config = Object.freeze({
     DEFAULT_COOLDOWN_SECONDS: 60,
     MAX_RETRIES: 2,
     RETRY_BACKOFF_BASE_MS: 1000,
+    RETRY_JITTER_FACTOR: 0.25,
     CALL_TIMEOUT_MS: 15000,
     TIMEZONE: 'America/Los_Angeles',
   }),
@@ -82,6 +85,7 @@ const config = Object.freeze({
     WINDOW_MS: 15 * 60 * 1000, // 15 minutes
     MAX_REQUESTS_PER_IP: 20,
     GLOBAL_MAX_CONCURRENT_REVIEWS: 2,
+    CONCURRENCY_RETRY_AFTER_SECONDS: 5,
   }),
 
   // In-Memory LRU Cache

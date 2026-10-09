@@ -230,7 +230,9 @@ export async function generateStructuredJson(options) {
 
       if (isTransient && attempts < maxRetries) {
         attempts += 1;
-        const delay = config.QUOTAS.RETRY_BACKOFF_BASE_MS * Math.pow(2, attempts - 1);
+        const baseDelay = config.QUOTAS.RETRY_BACKOFF_BASE_MS * Math.pow(2, attempts - 1);
+        const jitter = baseDelay * Math.random() * (config.QUOTAS.RETRY_JITTER_FACTOR || 0.25);
+        const delay = Math.round(baseDelay + jitter);
         await new Promise(r => setTimeout(r, delay));
         continue;
       }

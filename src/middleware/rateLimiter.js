@@ -32,11 +32,12 @@ export function reviewRateLimiter(req, res, next) {
 
   // 1. Global concurrency cap check
   if (activeReviewsCount >= config.RATE_LIMIT.GLOBAL_MAX_CONCURRENT_REVIEWS) {
-    res.setHeader('Retry-After', '5');
+    const retrySec = config.RATE_LIMIT.CONCURRENCY_RETRY_AFTER_SECONDS || 5;
+    res.setHeader('Retry-After', String(retrySec));
     res.status(503).json({
       error: {
         code: 'concurrency_limit',
-        message: 'Server is currently processing maximum simultaneous reviews. Please retry in 5 seconds.',
+        message: `Server is currently processing maximum simultaneous reviews. Please retry in ${retrySec} seconds.`,
       },
     });
     return;
