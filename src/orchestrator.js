@@ -51,6 +51,7 @@ async function streamExample(res, example, signal) {
         event: 'persona_done',
         persona: name,
         data: example.personas[name],
+        model: 'pre-saved-benchmark',
       });
     }
   }
@@ -61,6 +62,7 @@ async function streamExample(res, example, signal) {
   emitEvent(res, {
     event: 'judge_done',
     data: example.judge,
+    model: 'pre-saved-benchmark',
   });
 }
 
@@ -125,9 +127,18 @@ export async function runReview({ plan, mode = 'auto', exampleId, res, signal })
   if (cachedResult) {
     emitEvent(res, { event: 'mode_selected', mode: cachedResult.modeUsed || 'live' });
     for (const [persona, data] of Object.entries(cachedResult.personas || {})) {
-      emitEvent(res, { event: 'persona_done', persona, data });
+      emitEvent(res, {
+        event: 'persona_done',
+        persona,
+        data,
+        model: cachedResult.personaModels?.[persona] || 'cached',
+      });
     }
-    emitEvent(res, { event: 'judge_done', data: cachedResult.judge });
+    emitEvent(res, {
+      event: 'judge_done',
+      data: cachedResult.judge,
+      model: cachedResult.judgeModel || 'cached',
+    });
     return;
   }
 
@@ -197,6 +208,7 @@ export async function runReview({ plan, mode = 'auto', exampleId, res, signal })
  */
 async function executeLiveMode({ plan, res, signal }) {
   const personaResults = {};
+  const personaModels = {};
   const failedPersonas = [];
 
   const personaPromises = PERSONA_NAMES.map(async personaName => {
@@ -208,6 +220,7 @@ async function executeLiveMode({ plan, res, signal }) {
         event: 'persona_failed',
         persona: personaName,
         error: 'No healthy persona models available',
+        model: 'none',
       });
       return;
     }
@@ -215,7 +228,8 @@ async function executeLiveMode({ plan, res, signal }) {
     try {
       const result = await callPersona(personaName, plan, model, signal);
       personaResults[personaName] = result;
-      emitEvent(res, { event: 'persona_done', persona: personaName, data: result });
+      personaModels[personaName] = model;
+      emitEvent(res, { event: 'persona_done', persona: personaName, data: result, model });
     } catch (firstErr) {
       if (signal?.aborted) return;
       // Retry ONCE on another healthy model
@@ -224,7 +238,8 @@ async function executeLiveMode({ plan, res, signal }) {
         try {
           const retryResult = await callPersona(personaName, plan, fallbackModel, signal);
           personaResults[personaName] = retryResult;
-          emitEvent(res, { event: 'persona_done', persona: personaName, data: retryResult });
+          personaModels[personaName] = fallbackModel;
+          emitEvent(res, { event: 'persona_done', persona: personaName, data: retryResult, model: fallbackModel });
           return;
         } catch {
           // Retry failed as well
@@ -235,6 +250,7 @@ async function executeLiveMode({ plan, res, signal }) {
         event: 'persona_failed',
         persona: personaName,
         error: firstErr?.message || 'Persona analysis failed',
+        model: fallbackModel || model,
       });
     }
   });
@@ -251,6 +267,7 @@ async function executeLiveMode({ plan, res, signal }) {
   // Continue to Judge through fallback chain
   const triedJudgeModels = [];
   let judgeResult = null;
+  let selectedJudgeModel = null;
 
   while (true) {
     if (signal?.aborted) return false;
@@ -267,6 +284,7 @@ async function executeLiveMode({ plan, res, signal }) {
         judgeModel,
         signal
       );
+      selectedJudgeModel = judgeModel;
       break;
     } catch {
       // Continue to next judge model in fallback chain
@@ -277,13 +295,15 @@ async function executeLiveMode({ plan, res, signal }) {
     return false;
   }
 
-  emitEvent(res, { event: 'judge_done', data: judgeResult });
+  emitEvent(res, { event: 'judge_done', data: judgeResult, model: selectedJudgeModel });
 
   // Store in LRU cache
   cache.set(plan, 'live', {
     modeUsed: 'live',
     personas: personaResults,
+    personaModels,
     judge: judgeResult,
+    judgeModel: selectedJudgeModel,
   });
 
   return true;
@@ -304,6 +324,7 @@ async function executeQuickMode({ plan, res, signal }) {
   if (!personaModel) return false;
 
   let personasData;
+  let usedPersonaModel = personaModel;
   try {
     personasData = await callAllPersonas(plan, personaModel, signal);
   } catch {
@@ -312,6 +333,7 @@ async function executeQuickMode({ plan, res, signal }) {
     if (!fallbackModel) return false;
     try {
       personasData = await callAllPersonas(plan, fallbackModel, signal);
+      usedPersonaModel = fallbackModel;
     } catch {
       return false;
     }
@@ -326,6 +348,7 @@ async function executeQuickMode({ plan, res, signal }) {
         event: 'persona_done',
         persona: name,
         data: personasData[name],
+        model: usedPersonaModel,
       });
     }
   }
@@ -333,6 +356,7 @@ async function executeQuickMode({ plan, res, signal }) {
   // Continue to Judge through fallback chain
   const triedJudgeModels = [];
   let judgeResult = null;
+  let selectedJudgeModel = null;
 
   while (true) {
     if (signal?.aborted) return false;
@@ -349,6 +373,7 @@ async function executeQuickMode({ plan, res, signal }) {
         judgeModel,
         signal
       );
+      selectedJudgeModel = judgeModel;
       break;
     } catch {
       // Continue to next judge model
@@ -359,14 +384,17 @@ async function executeQuickMode({ plan, res, signal }) {
     return false;
   }
 
-  emitEvent(res, { event: 'judge_done', data: judgeResult });
+  emitEvent(res, { event: 'judge_done', data: judgeResult, model: selectedJudgeModel });
 
   // Store in LRU cache
   cache.set(plan, 'quick', {
     modeUsed: 'quick',
     personas: personasData,
+    personaModels: Object.fromEntries(PERSONA_NAMES.map(p => [p, usedPersonaModel])),
     judge: judgeResult,
+    judgeModel: selectedJudgeModel,
   });
 
   return true;
 }
+

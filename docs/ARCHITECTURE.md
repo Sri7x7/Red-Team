@@ -109,11 +109,11 @@ Body is a stream of newline-delimited JSON objects, one per line, **flushed imme
 
 | Event | Shape | When |
 |-------|-------|------|
-| `mode_selected` | `{ "event": "mode_selected", "mode": "live"\|"quick"\|"demo" }` | First event, always sent |
-| `persona_done` | `{ "event": "persona_done", "persona": "<name>", "data": PersonaOutput }` | Each successful persona |
-| `persona_failed` | `{ "event": "persona_failed", "persona": "<name>", "error": "<message>" }` | A persona call failed after retry |
+| `mode_selected` | `{ "event": "mode_selected", "mode": "live"|"quick"|"demo" }` | First event, always sent |
+| `persona_done` | `{ "event": "persona_done", "persona": "<name>", "model": "<model-id>", "data": PersonaOutput }` | Each successful persona |
+| `persona_failed` | `{ "event": "persona_failed", "persona": "<name>", "model": "<model-id>", "error": "<message>" }` | A persona call failed after retry |
 | `degraded` | `{ "event": "degraded", "from": "live"|"quick", "to": "quick"|"error", "reason": "<message>" }` | Mode downgrade occurred |
-| `judge_done` | `{ "event": "judge_done", "data": JudgeOutput }` | Judge completed |
+| `judge_done` | `{ "event": "judge_done", "model": "<model-id>", "data": JudgeOutput }` | Judge completed |
 | `safety` | `{ "event": "safety", "mode": "support", "message": "<support helplines message>" }` | Plan triggers crisis/self-harm safety guard; skips debate before any model calls |
 | `error` | `{ "event": "error", "message": "<string>", "code": "busy"|"internal"|"validation", "retryAfterSeconds": <number|null>, "sampleAvailable": <boolean> }` | Terminal error |
 

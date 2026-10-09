@@ -50,9 +50,16 @@ describe('orchestrator.js execution paths', () => {
     assert.equal(eventTypes[eventTypes.length - 1], 'judge_done');
     assert.ok(eventTypes.includes('persona_done'));
 
+    const personaEvents = events.filter(e => e.event === 'persona_done');
+    assert.equal(personaEvents.length, 5);
+    for (const pe of personaEvents) {
+      assert.ok(typeof pe.model === 'string' && pe.model.length > 0);
+    }
+
     const judgeDone = events.find(e => e.event === 'judge_done');
     assert.equal(judgeDone.data.survivalScoreBefore, 23);
     assert.equal(judgeDone.data.survivalScoreAfter, 52);
+    assert.ok(typeof judgeDone.model === 'string' && judgeDone.model.length > 0);
     assert.ok(Array.isArray(judgeDone.data.keyTensions));
   });
 
@@ -81,9 +88,14 @@ describe('orchestrator.js execution paths', () => {
       res: mockRes,
     });
 
-    const doneCount = events.filter(e => e.event === 'persona_done').length;
-    assert.equal(doneCount, 5);
-    assert.ok(events.some(e => e.event === 'judge_done'));
+    const personaDoneEvents = events.filter(e => e.event === 'persona_done');
+    assert.equal(personaDoneEvents.length, 5);
+    for (const p of personaDoneEvents) {
+      assert.ok(typeof p.model === 'string' && p.model.length > 0);
+    }
+    const judgeDone = events.find(e => e.event === 'judge_done');
+    assert.ok(judgeDone);
+    assert.ok(typeof judgeDone.model === 'string' && judgeDone.model.length > 0);
   });
 
   it('retries once when a persona fails and succeeds on fallback model', async () => {
@@ -136,7 +148,7 @@ describe('orchestrator.js execution paths', () => {
           if (req.model.includes('flash') && !req.model.includes('lite')) {
             return { text: JSON.stringify({ ...mockJudge, missingPersonas: ['pessimist', 'accountant'] }) };
           }
-          if (sys.includes('Pessimist') || sys.includes('Accountant')) {
+          if (sys.includes('You are the Pessimist') || sys.includes('You are the Accountant')) {
             throw new Error('Persistent failure');
           }
           return { text: JSON.stringify(mockPersona) };
@@ -150,11 +162,15 @@ describe('orchestrator.js execution paths', () => {
       res: mockRes,
     });
 
-    const failedCount = events.filter(e => e.event === 'persona_failed').length;
-    assert.equal(failedCount, 2);
+    const failedEvents = events.filter(e => e.event === 'persona_failed');
+    assert.equal(failedEvents.length, 2);
+    for (const fe of failedEvents) {
+      assert.ok(typeof fe.model === 'string' && fe.model.length > 0);
+    }
     const judgeDone = events.find(e => e.event === 'judge_done');
     assert.ok(judgeDone);
     assert.equal(judgeDone.data.missingPersonas.length, 2);
+    assert.ok(typeof judgeDone.model === 'string' && judgeDone.model.length > 0);
   });
 
   it('degrades to quick mode when fewer than 3 personas succeed in live mode', async () => {

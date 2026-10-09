@@ -15,6 +15,7 @@ try {
 
 import { readFileSync, existsSync } from 'node:fs';
 import { runReview } from '../src/orchestrator.js';
+import { PERSONA_METADATA } from '../src/agents/personas.js';
 
 // Parse arguments
 const args = process.argv.slice(2);
@@ -90,22 +91,31 @@ function renderCliEvent(event) {
 
     case 'persona_done': {
       const p = event.data;
+      const meta = PERSONA_METADATA[event.persona] || {
+        displayName: event.persona,
+        itemLabel: 'Point',
+        scoreLabel: 'Severity',
+        fixLabel: 'Fix',
+      };
+      const modelStr = event.model ? ` [${event.model}]` : '';
       console.log(`----------------------------------------------------------------------`);
-      console.log(`👤 PERSONA: ${event.persona.toUpperCase()}`);
+      console.log(`👤 PERSONA: ${meta.displayName.toUpperCase()}${modelStr}`);
       console.log(`💬 Headline: "${p.headline}"`);
       if (Array.isArray(p.points)) {
         for (const pt of p.points) {
-          console.log(`   • [Severity ${pt.severity}/5] ${pt.claim}`);
-          console.log(`     ↳ Fix: ${pt.suggestedFix}`);
+          console.log(`   • [${meta.scoreLabel} ${pt.severity}/5] ${pt.claim}`);
+          console.log(`     ↳ ${meta.fixLabel}: ${pt.suggestedFix}`);
         }
       }
       console.log(`⚖️ Verdict: ${p.verdict}\n`);
       break;
     }
 
-    case 'persona_failed':
-      console.log(`⚠️ [PERSONA FAILED] ${event.persona}: ${event.error}\n`);
+    case 'persona_failed': {
+      const modelStr = event.model ? ` [${event.model}]` : '';
+      console.log(`⚠️ [PERSONA FAILED] ${event.persona}${modelStr}: ${event.error}\n`);
       break;
+    }
 
     case 'degraded':
       console.log(`⚠️ [DEGRADED] ${event.from} ➔ ${event.to}: ${event.reason}\n`);
@@ -113,8 +123,9 @@ function renderCliEvent(event) {
 
     case 'judge_done': {
       const j = event.data;
+      const modelStr = event.model ? ` [${event.model}]` : '';
       console.log('='.repeat(70));
-      console.log('🏆 EXECUTIVE JUDGE — HARDENED SYNTHESIS');
+      console.log(`🏆 EXECUTIVE JUDGE — HARDENED SYNTHESIS${modelStr}`);
       console.log('='.repeat(70));
       console.log(`📊 SURVIVAL PROBABILITY:`);
       console.log(`   Initial Raw Plan:     ${j.survivalScoreBefore}%`);
