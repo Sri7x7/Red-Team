@@ -3,25 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Red Team My Life — Multi-agent adversarial stress-test for career, business, and major life decisions. 5 AI personas attack your assumptions, then an Executive Judge builds a hardened roadmap.">
+  <meta name="description" content="Red Team My Life — Five AI personas stress-test your career, business, and life decisions in parallel. An Executive Judge delivers a hardened survival roadmap.">
+  <meta name="theme-color" content="#254BDD">
   <title>Red Team My Life — Multi-Agent Stress Test</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Skip to main content (keyboard accessibility) -->
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <div class="app-container">
+
+    <!-- ── Header ─────────────────────────────── -->
     <header class="app-header">
       <div class="brand-badge">Autonomous Multi-Agent Council</div>
       <h1 class="app-title">Red Team My Life</h1>
-      <p class="app-tagline">5 autonomous AI personas mercilessly stress-test your plans in parallel, then an Executive Judge synthesizes a hardened survival roadmap.</p>
+      <p class="app-tagline">Five AI personas attack your plan in parallel. One judge hardens it into a survival roadmap.</p>
     </header>
 
+    <!-- ── Main ───────────────────────────────── -->
     <main id="main">
+
       <!-- Input Plan Form -->
       <section class="form-section" aria-labelledby="form-heading">
         <h2 id="form-heading" class="visually-hidden">Submit Your Plan</h2>
-        <form id="review-form" class="form-card" novalidate>
+        <div class="form-card">
+          <!-- Textarea + char counter -->
           <div class="form-group">
             <div class="label-row">
               <label for="plan-input" class="form-label">Your Proposed Plan</label>
@@ -31,24 +38,27 @@
               id="plan-input"
               name="plan"
               class="plan-textarea"
-              placeholder="E.g., I want to quit my software engineering job next month to launch a solo indie game studio with $25k in savings..."
+              placeholder="E.g., I want to quit my software engineering job next month to launch a solo indie game studio with $25k in savings…"
               required
-              rows="5"
+              rows="6"
               maxlength="2000"
               aria-describedby="char-counter plan-hint"
             ></textarea>
-            <span id="plan-hint" class="visually-hidden">Enter your proposed life, career, or financial plan up to 2000 characters.</span>
+            <span id="plan-hint" class="visually-hidden">Enter your proposed life, career, or financial plan up to 2000 characters. Press Ctrl+Enter to submit.</span>
           </div>
 
-          <!-- Benchmark Example Buttons -->
-          <div class="example-section">
-            <span class="example-label">Or stress-test a benchmark plan:</span>
-            <div id="example-buttons" class="example-buttons-row" role="group" aria-label="Benchmark sample plans">
+          <!-- Shortcut hint -->
+          <p class="keyboard-hint" aria-hidden="true">Tip: Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to submit</p>
+
+          <!-- Benchmark Example Cards -->
+          <div class="example-section" aria-labelledby="example-label">
+            <span id="example-label" class="example-label">Or stress-test a benchmark plan:</span>
+            <div id="example-buttons" class="example-cards-row" role="group" aria-labelledby="example-label">
               <!-- Dynamically populated from /api/meta -->
             </div>
           </div>
 
-          <!-- Form Controls & Actions -->
+          <!-- Mode select + Submit -->
           <div class="form-actions-row">
             <div class="mode-select-wrap">
               <label for="mode-select" class="mode-label">Council Mode:</label>
@@ -60,7 +70,7 @@
             </div>
 
             <div class="submit-wrap">
-              <button type="submit" id="submit-btn" class="btn-primary">
+              <button type="submit" id="submit-btn" class="btn-primary" form="review-form">
                 Red Team My Plan
               </button>
               <button type="button" id="stop-btn" class="btn-stop" hidden aria-hidden="true">
@@ -68,20 +78,32 @@
               </button>
             </div>
           </div>
-        </form>
+        </div>
       </section>
 
-      <!-- Live Status & Degradation Announcements -->
-      <div id="status-region" class="status-region" role="status" aria-live="polite"></div>
+      <!-- Live Status / Degradation Polite Region -->
+      <div id="status-region" class="status-region" role="status" aria-live="polite" aria-atomic="true"></div>
 
-      <!-- Safety & Support Helpline Panel (shown on crisis triggers) -->
+      <!-- Safety & Support Panel (crisis trigger) -->
       <section id="safety-panel" class="safety-panel" role="alert" aria-live="assertive" hidden></section>
 
-      <!-- Error & Quota Panel -->
+      <!-- Error / Rate-limit Panel -->
       <section id="error-panel" class="error-panel" role="alert" aria-live="assertive" hidden></section>
 
+      <!-- Empty State: How It Works + Persona Chips -->
+      <section id="empty-state" class="empty-state" aria-label="How it works" hidden></section>
+
+      <!-- Progress Strip (shown while running) -->
+      <div id="progress-wrap" class="progress-wrap" hidden></div>
+
       <!-- Results: Council Evaluation & Synthesis -->
-      <section id="results-section" class="results-section" aria-labelledby="results-heading" aria-busy="false" hidden>
+      <section
+        id="results-section"
+        class="results-section"
+        aria-labelledby="results-heading"
+        aria-busy="false"
+        hidden
+      >
         <h2 id="results-heading" class="results-heading" tabindex="-1">Council Evaluation &amp; Synthesis</h2>
 
         <!-- 5-Card Persona Grid -->
@@ -90,11 +112,14 @@
         <!-- Executive Judge Synthesis Panel -->
         <div id="judge-container"></div>
       </section>
+
     </main>
 
+    <!-- ── Footer ─────────────────────────────── -->
     <footer class="app-footer">
       <p>Red Team My Life &bull; Grounded in conservative fiduciary &amp; operational reality &bull; No unsolicited data retention</p>
     </footer>
+
   </div>
 
   <script type="module" src="js/main.js"></script>

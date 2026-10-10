@@ -23,7 +23,7 @@ function svgEl(tag, attrs = {}) {
 
 /**
  * Creates an inline SVG icon for a given icon identifier.
- * @param {'skull' | 'wallet' | 'shield' | 'hourglass' | 'rocket' | 'calendar' | 'copy' | 'check' | 'print' | 'refresh'} name
+ * @param {'skull' | 'wallet' | 'shield' | 'hourglass' | 'rocket' | 'calendar' | 'copy' | 'check' | 'print' | 'refresh' | 'info' | 'arrow-right'} name
  * @param {string} [className]
  * @returns {SVGSVGElement}
  */
@@ -122,6 +122,23 @@ export function createIcon(name, className = 'icon') {
       // Retry / refresh icon
       const path1 = svgEl('path', { d: 'M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67' });
       svg.appendChild(path1);
+      break;
+    }
+
+    case 'info': {
+      // Info icon
+      const circle = svgEl('circle', { cx: '12', cy: '12', r: '10' });
+      const line1 = svgEl('line', { x1: '12', y1: '16', x2: '12', y2: '12' });
+      const line2 = svgEl('line', { x1: '12', y1: '8', x2: '12.01', y2: '8' });
+      svg.append(circle, line1, line2);
+      break;
+    }
+
+    case 'arrow-right': {
+      // Arrow right icon
+      const line = svgEl('line', { x1: '5', y1: '12', x2: '19', y2: '12' });
+      const poly = svgEl('polyline', { points: '12 5 19 12 12 19' });
+      svg.append(line, poly);
       break;
     }
 
